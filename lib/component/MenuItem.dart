@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
 
@@ -51,10 +52,14 @@ class _MenuItemState extends State<MenuItem> {
           child: Row(
             children: [
               Icon(widget.itemData.iconData,
-                  size: 12, color: ThemeColors.primaryTextColor),
-              const SizedBox(width: 8),
-              Text(widget.itemData.title).textStyle(
-                  TextStyle(fontSize: 12, color: ThemeColors.primaryTextColor))
+                      size: 12, color: ThemeColors.primaryTextColor)
+                  .padding(right: 8)
+                  .expanded(flex: 0),
+              Expanded(
+                child: Text(widget.itemData.title, maxLines: 1,overflow: TextOverflow.clip,)
+                    .textStyle(TextStyle(
+                        fontSize: 12, color: ThemeColors.primaryTextColor)),
+              )
             ],
           ),
         ),

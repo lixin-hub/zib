@@ -10,4 +10,9 @@ abstract final class ThemeColors {
   static Color secondaryTextColor = Colors.white70;
   static Color asideBackgroundColor = const Color.fromRGBO(40, 42, 57, 1);
 
+  static Color mainCentralColor = Colors.black54;
+
+  static var topBarColor = const Color.fromRGBO(0, 0, 0, 0.8);
+
+  static var searchBackgroundColor = const Color(0xff282A39);
 }
