@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
 
 import '../top_navigation_bar/top_navigation_bar_view.dart';
@@ -21,7 +20,7 @@ class TopBanner extends StatelessWidget {
           "images/banner.png",
           width: double.infinity,
           height: 250,
-          fit: BoxFit.fitWidth,
+          fit: BoxFit.cover,
         ),
         Positioned.fill(
           child: ClipRect(

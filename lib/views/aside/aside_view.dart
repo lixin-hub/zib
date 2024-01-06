@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -46,6 +45,9 @@ class _AsideState extends State<Aside> {
       logic.items.add(MenuItem(
         onTap: () => setState(() {
           _selectedIndex = i;
+          if(i==1){
+            // Get.toNamed("/highlight");
+          }
         }),
         itemData: MenuItemData(iconData as IconData, title as String),
         isSelected: i == _selectedIndex,
