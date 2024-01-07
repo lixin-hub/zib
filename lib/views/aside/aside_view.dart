@@ -78,7 +78,7 @@ class _AsideState extends State<Aside> {
                   .fontWeight(FontWeight.w800)
                   .alignment(Alignment.centerLeft)
                   .padding(left: 24),
-              Column(
+              const Column(
                 children: [],
               )
             ],

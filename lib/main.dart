@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zib/pages/HomePage.dart';
 import 'package:zib/router/GetPages.dart';
-
-void main() {
+import 'package:video_player_media_kit/video_player_media_kit.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  VideoPlayerMediaKit.ensureInitialized(
+    // macOS: true,
+    // windows: true,
+    linux: true,
+  );
   runApp(
     GetMaterialApp(
       //材质小组件包裹防止某些小部件报错 比如InkWell
@@ -13,7 +19,7 @@ void main() {
               textDirection: TextDirection.ltr, child: HomePage())),
       initialRoute: "/",
       getPages: pages,
-      defaultTransition: Transition.zoom,
+      defaultTransition: Transition.cupertino,
     ),
   );
 }

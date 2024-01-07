@@ -46,11 +46,13 @@ class TopBanner extends StatelessWidget {
                           style:
                               TextStyle(color: ThemeColors.secondaryTextColor))
                       .marginOnly(bottom: 12),
-                  ElevatedButton(onPressed: () {}, child: const Text("Go!"))
+                  ElevatedButton(onPressed: () {
+                    Get.toNamed('/webview');
+                  }, child: const Text("Go!"))
                 ]).marginOnly(bottom: 30, left: 24),
           ),
         ),
-        TopNavigationBar(),
+        const TopNavigationBar(),
       ],
     );
   }

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ abstract final class ThemeColors {
   static Color secondaryTextColor = Colors.white70;
   static Color asideBackgroundColor = const Color.fromRGBO(40, 42, 57, 1);
 
-  static Color mainCentralColor = Color(0xff1c1c1c);
+  static Color mainCentralColor = const Color(0xff1c1c1c);
 
   static var topBarColor = const Color.fromRGBO(0, 0, 0, 0.8);
 
