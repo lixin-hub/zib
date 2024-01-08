@@ -3,13 +3,15 @@ import 'package:get/get.dart';
 import 'package:zib/pages/HomePage.dart';
 import 'package:zib/router/GetPages.dart';
 import 'package:video_player_media_kit/video_player_media_kit.dart';
+
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   VideoPlayerMediaKit.ensureInitialized(
-    // macOS: true,
-    // windows: true,
-    linux: true,
-  );
+      // macOS: true,
+      // windows: true,
+      web: true,
+      linux: true,
+      android: true);
   runApp(
     GetMaterialApp(
       //材质小组件包裹防止某些小部件报错 比如InkWell

@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 
-class LinuxPlayer extends StatefulWidget {
-  const LinuxPlayer({super.key});
+class MediaKitPlayer extends StatefulWidget {
+  //播放控制器
+  final VideoPlayerController controller;
+
+  const MediaKitPlayer({
+    super.key,
+    required this.controller,
+  });
 
   @override
-  State<LinuxPlayer> createState() => _LinuxState();
+  State<MediaKitPlayer> createState() => _MediaKitPlayerState();
 }
 
-class _LinuxState extends State<LinuxPlayer> {
+class _MediaKitPlayerState extends State<MediaKitPlayer> {
   late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse("http://192.168.1.105:80/live.flv?port=1985&app=myapp&stream=test"));
-
-    _controller.addListener(() {
-      setState(() {});
-    });
-    _controller.setLooping(true);
-    _controller.initialize().then((_) => setState(() {}));
-    _controller.play();
+    _controller = widget.controller;
   }
 
   @override
@@ -32,29 +32,24 @@ class _LinuxState extends State<LinuxPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(top: 20.0),
-          ),
-          const Text('With assets mp4'),
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: <Widget>[
-                  VideoPlayer(_controller),
-                  _ControlsOverlay(controller: _controller),
-                  VideoProgressIndicator(_controller, allowScrubbing: true),
-                ],
-              ),
+    return Column(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          child: AspectRatio(
+            aspectRatio: _controller.value.aspectRatio,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                VideoPlayer(_controller),
+                _ControlsOverlay(controller: _controller),
+                VideoProgressIndicator(_controller, allowScrubbing: true),
+              ],
             ),
           ),
-        ],
-      ),
+        ).expanded(),
+      ],
     );
   }
 }
