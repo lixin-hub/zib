@@ -37,29 +37,33 @@ class _MediaKitPlayerState extends State<MediaKitPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        SizedBox(
-          width: double.infinity,
-          child: AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: Stack(
-              children: <Widget>[
-                //主播放器
-                VideoPlayer(_controller),
-                //覆盖层
-                ControlsOverlay(controller: _controller),
-                //进度条
-                VideoProgressIndicator(_controller, allowScrubbing: true)
-                    .alignment(Alignment.bottomCenter),
-                //控制栏
-                PlayerControlBar(_controller).alignment(Alignment.bottomCenter),
-                //控制器信息
-                if (showInfo) VideoInfo(_controller),
-              ],
+    return SizedBox(
+      width: double.infinity,
+      child: AspectRatio(
+        aspectRatio: _controller.value.aspectRatio,
+        child: Stack(
+          children: <Widget>[
+            //主播放器
+            Align(
+              alignment: Alignment.center,
+              child: AnimatedContainer(
+                  height: _controller.value.isInitialized ? _controller.value.size.height : 400,
+                  curve: Curves.ease,
+                  duration: const Duration(seconds: 1),
+                  child: VideoPlayer(_controller)),
             ),
-          ),
-
+            //覆盖层
+            ControlsOverlay(controller: _controller),
+            //进度条
+            VideoProgressIndicator(_controller, allowScrubbing: true)
+                .alignment(Alignment.bottomCenter),
+            //控制栏
+            PlayerControlBar(_controller).alignment(Alignment.bottomCenter),
+            //控制器信息
+            if (showInfo) VideoInfo(_controller),
+          ],
+        ),
+      ),
     );
   }
 }
-
