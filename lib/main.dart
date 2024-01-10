@@ -19,7 +19,7 @@ Future<void> main() async {
           //包裹语言习惯排列方向的小部件，防止Text报错，
           child: Directionality(
               textDirection: TextDirection.ltr, child: HomePage())),
-      initialRoute: "/",
+      initialRoute: "/player",
       getPages: pages,
       defaultTransition: Transition.cupertino,
     ),
