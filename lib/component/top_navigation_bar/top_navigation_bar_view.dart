@@ -7,7 +7,7 @@ import 'package:zib/component/top_navigation_bar/top_navigation_bar_logic.dart';
 import '../../views/aside/aside_logic.dart';
 
 class TopNavigationBar extends StatefulWidget {
-  const TopNavigationBar({Key? key}) : super(key: key);
+  const TopNavigationBar({super.key});
 
   @override
   State<TopNavigationBar> createState() => _TopNavigationBarState();

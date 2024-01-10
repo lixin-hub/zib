@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
+import 'package:zib/main.dart';
 
-class VideoInfo extends StatelessWidget {
-  VideoPlayerController _controller;
+class VideoInfo extends StatefulWidget {
+  final VideoPlayerController controller;
 
-  VideoInfo(this._controller, {super.key});
+  const VideoInfo(this.controller, {super.key});
+
+  @override
+  State<VideoInfo> createState() => _VideoInfoState();
+}
+
+class _VideoInfoState extends State<VideoInfo> {
+  late final VideoPlayerController _controller;
+
+  updateInfo() {
+    setState(() {
+      logger.i("info 更新");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.controller;
+    _controller.addListener(updateInfo);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(updateInfo);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +43,7 @@ class VideoInfo extends StatelessWidget {
         Text("during:${_controller.value.duration}"),
         Text("buffered:${_controller.value.buffered}"),
         Text("size:${_controller.value.size}"),
+        Text("screen:${MediaQuery.of(context).size}"),
         Text("position:${_controller.value.position}"),
         Text("volume:${_controller.value.volume}"),
         Text("playbackSpeed:${_controller.value.playbackSpeed}"),

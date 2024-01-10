@@ -7,7 +7,7 @@ import '../CardItem.dart';
 import 'category_regin_logic.dart';
 
 class CategoryRegin extends StatelessWidget {
-  CategoryRegin({Key? key}) : super(key: key);
+  CategoryRegin({super.key});
 
   final logic = Get.put(CategoryReginLogic());
 

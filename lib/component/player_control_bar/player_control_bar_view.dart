@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -37,21 +35,25 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
           Row(
             children: [
               _controller.value.isPlaying
-                  ? createIconButton(Icons.pause, onPressed: () {
-                      _controller.pause();
+                  ? MyIconButton(Icons.pause, onPressed: () {
+                      setState(() {
+                        _controller.pause();
+                      });
                     })
-                  : createIconButton(Icons.play_arrow, onPressed: () {
-                      _controller.play();
+                  : MyIconButton(Icons.play_arrow, onPressed: () {
+                      setState(() {
+                        _controller.play();
+                      });
                     }),
-              createIconButton(Icons.refresh)
+              const MyIconButton(Icons.refresh)
             ],
           ).expanded(),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              createIconButton(Icons.format_color_text_outlined),
-              createIconButton(Icons.volume_up_outlined),
-              createIconButton(Icons.fullscreen_rounded),
+              MyIconButton(Icons.format_color_text_outlined),
+              MyIconButton(Icons.volume_up_outlined),
+              MyIconButton(Icons.fullscreen_rounded),
             ],
           ).expanded()
         ],
@@ -60,25 +62,30 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
   }
 }
 
-createIconButton(IconData iconData, {String? tooltip, onPressed}) {
-  return IconButton(
-    icon: Icon(
-      iconData,
-      color: Colors.white,
-      size: 30,
-    ),
-    // hoverColor: Colors.blueGrey,
-    // highlightColor: Colors.blue,
-    tooltip: tooltip,
-    style: buttonStyle(),
-    onPressed: onPressed,
-  );
-}
+class MyIconButton extends StatelessWidget {
+  final IconData iconData;
+  final String? tooltip;
+  final VoidCallback? onPressed;
 
-buttonStyle() {
-  return ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(Colors.transparent),
-      padding: MaterialStateProperty.all(const EdgeInsets.all(2)),
-      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5), side: BorderSide.none)));
+  const MyIconButton(this.iconData, {super.key, this.tooltip, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        iconData,
+        color: Colors.white,
+        size: 30,
+      ),
+      // hoverColor: Colors.blueGrey,
+      // highlightColor: Colors.blue,
+      tooltip: tooltip,
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          padding: MaterialStateProperty.all(const EdgeInsets.all(2)),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5), side: BorderSide.none))),
+      onPressed: onPressed,
+    );
+  }
 }

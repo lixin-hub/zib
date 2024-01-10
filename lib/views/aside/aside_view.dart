@@ -8,7 +8,7 @@ import '../../component/MenuItem.dart';
 import 'aside_logic.dart';
 
 class Aside extends StatefulWidget {
-  const Aside({Key? key}) : super(key: key);
+  const Aside({super.key});
 
   @override
   State<Aside> createState() => _AsideState();

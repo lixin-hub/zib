@@ -31,7 +31,6 @@ class _MediaKitPlayerState extends State<MediaKitPlayer> {
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -47,7 +46,9 @@ class _MediaKitPlayerState extends State<MediaKitPlayer> {
             Align(
               alignment: Alignment.center,
               child: AnimatedContainer(
-                  height: _controller.value.isInitialized ? _controller.value.size.height : 400,
+                  height: _controller.value.isInitialized
+                      ? _controller.value.size.height
+                      : 400,
                   curve: Curves.ease,
                   duration: const Duration(seconds: 1),
                   child: VideoPlayer(_controller)),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class ControlsOverlay extends StatelessWidget {
-  const ControlsOverlay({required this.controller});
+class ControlsOverlay extends StatefulWidget {
+  const ControlsOverlay({super.key, required this.controller});
 
   static const List<Duration> _exampleCaptionOffsets = <Duration>[
     Duration(seconds: -10),
@@ -29,13 +29,26 @@ class ControlsOverlay extends StatelessWidget {
   final VideoPlayerController controller;
 
   @override
+  State<ControlsOverlay> createState() => _ControlsOverlayState();
+}
+
+class _ControlsOverlayState extends State<ControlsOverlay> {
+  late final VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.controller;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 50),
           reverseDuration: const Duration(milliseconds: 200),
-          child: controller.value.isPlaying
+          child: _controller.value.isPlaying
               ? const SizedBox.shrink()
               : Container(
                   color: Colors.black26,
@@ -51,20 +64,25 @@ class ControlsOverlay extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            controller.value.isPlaying ? controller.pause() : controller.play();
+            setState(() {
+              _controller.value.isPlaying
+                  ? _controller.pause()
+                  : _controller.play();
+            });
           },
         ),
         Align(
           alignment: Alignment.topLeft,
           child: PopupMenuButton<Duration>(
-            initialValue: controller.value.captionOffset,
+            initialValue: _controller.value.captionOffset,
             tooltip: 'Caption Offset',
             onSelected: (Duration delay) {
-              controller.setCaptionOffset(delay);
+              _controller.setCaptionOffset(delay);
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuItem<Duration>>[
-                for (final Duration offsetDuration in _exampleCaptionOffsets)
+                for (final Duration offsetDuration
+                    in ControlsOverlay._exampleCaptionOffsets)
                   PopupMenuItem<Duration>(
                     value: offsetDuration,
                     child: Text('${offsetDuration.inMilliseconds}ms'),
@@ -79,21 +97,23 @@ class ControlsOverlay extends StatelessWidget {
                 vertical: 12,
                 horizontal: 16,
               ),
-              child: Text('${controller.value.captionOffset.inMilliseconds}ms'),
+              child: Text(
+                  '${_controller.value.captionOffset.inMilliseconds}ms'),
             ),
           ),
         ),
         Align(
           alignment: Alignment.topRight,
           child: PopupMenuButton<double>(
-            initialValue: controller.value.playbackSpeed,
+            initialValue: _controller.value.playbackSpeed,
             tooltip: 'Playback speed',
             onSelected: (double speed) {
-              controller.setPlaybackSpeed(speed);
+              _controller.setPlaybackSpeed(speed);
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuItem<double>>[
-                for (final double speed in _examplePlaybackRates)
+                for (final double speed
+                    in ControlsOverlay._examplePlaybackRates)
                   PopupMenuItem<double>(
                     value: speed,
                     child: Text('${speed}x'),
@@ -108,7 +128,7 @@ class ControlsOverlay extends StatelessWidget {
                 vertical: 12,
                 horizontal: 16,
               ),
-              child: Text('${controller.value.playbackSpeed}x'),
+              child: Text('${_controller.value.playbackSpeed}x'),
             ),
           ),
         ),

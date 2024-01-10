@@ -8,7 +8,7 @@ import 'package:zib/component/top_banner/top_banner_view.dart';
 import 'main_central_logic.dart';
 
 class MainCentral extends StatelessWidget {
-  MainCentral({Key? key}) : super(key: key);
+  MainCentral({super.key});
 
   final logic = Get.put(MainCentralLogic());
 
