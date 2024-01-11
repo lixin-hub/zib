@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:zib/main.dart';
 
 class ControlsOverlay extends StatefulWidget {
   const ControlsOverlay({super.key, required this.controller});
@@ -64,6 +65,7 @@ class _ControlsOverlayState extends State<ControlsOverlay> {
         ),
         GestureDetector(
           onTap: () {
+            logger.i("message");
             setState(() {
               _controller.value.isPlaying
                   ? _controller.pause()

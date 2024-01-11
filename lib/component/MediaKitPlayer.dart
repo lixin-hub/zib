@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/player_control_bar/player_control_bar_view.dart';
+import 'package:zib/main.dart';
 
 import 'ControlsOverlay.dart';
 import 'VideoInfo.dart';

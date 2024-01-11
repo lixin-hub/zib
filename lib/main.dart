@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -18,23 +20,24 @@ Future<void> main() async {
       web: true,
       linux: true,
       android: true);
-  //初始化窗口管理插件
-  await windowManager.ensureInitialized();
+ if(Platform.isLinux||Platform.isMacOS||Platform.isWindows) {
+   //初始化窗口管理插件
+   await windowManager.ensureInitialized();
 
-  WindowOptions windowOptions = const WindowOptions(
-    // size: Size(800, 600),
-    minimumSize: Size(400, 800),
+   WindowOptions windowOptions = const WindowOptions(
+     // size: Size(800, 600),
+     minimumSize: Size(400, 800),
 
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    // titleBarStyle: TitleBarStyle.hidden,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
-
+     center: true,
+     backgroundColor: Colors.transparent,
+     skipTaskbar: false,
+     // titleBarStyle: TitleBarStyle.hidden,
+   );
+   windowManager.waitUntilReadyToShow(windowOptions, () async {
+     await windowManager.show();
+     await windowManager.focus();
+   });
+ }
   runApp(GetMaterialApp(
     //材质小组件包裹防止某些小部件报错 比如InkWell
     home: const Material(

@@ -5,10 +5,20 @@ import 'package:zib/component/CommentItem.dart';
 
 import 'video_review_logic.dart';
 
-class VideoReview extends StatelessWidget {
-  VideoReview({super.key});
+class VideoReview extends StatefulWidget {
+  const VideoReview({super.key});
 
+  @override
+  State<VideoReview> createState() => _VideoReviewState();
+}
+
+class _VideoReviewState extends State<VideoReview> {
   final logic = Get.put(VideoReviewLogic());
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +31,17 @@ class VideoReview extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [
-              Container(
-                child: ListView.builder(
+              Obx(() {
+                return ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: 10,
+                  itemCount: logic.list.length,
+                  controller: logic.scrollController,
                   itemBuilder: (context, index) {
-                    return CommentItem("大红红的美食", "评论 " * ((index + 1) % 30));
+                    return CommentItem("大红红的美食", logic.list[index]);
                   },
-                ),
-              ).expanded(flex: 8),
-              Container().expanded(flex: 2)
+                );
+              }).expanded(flex: 8),
+              const Expanded(flex: 2, child: SizedBox())
             ],
           ),
         ));
