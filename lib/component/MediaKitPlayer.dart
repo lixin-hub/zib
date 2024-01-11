@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/player_control_bar/player_control_bar_view.dart';
-import 'package:zib/main.dart';
 
 import 'ControlsOverlay.dart';
 import 'VideoInfo.dart';
@@ -47,9 +47,7 @@ class _MediaKitPlayerState extends State<MediaKitPlayer> {
             Align(
               alignment: Alignment.center,
               child: AnimatedContainer(
-                  height: _controller.value.isInitialized
-                      ? _controller.value.size.height
-                      : 400,
+                  height: _controller.value.isInitialized ? _controller.value.size.height : 400,
                   curve: Curves.ease,
                   duration: const Duration(seconds: 1),
                   child: VideoPlayer(_controller)),
@@ -58,11 +56,12 @@ class _MediaKitPlayerState extends State<MediaKitPlayer> {
             ControlsOverlay(controller: _controller),
             //进度条
             VideoProgressIndicator(_controller, allowScrubbing: true)
+                .paddingSymmetric(horizontal: 10)
                 .alignment(Alignment.bottomCenter),
             //控制栏
             PlayerControlBar(_controller).alignment(Alignment.bottomCenter),
             //控制器信息
-            if (showInfo) VideoInfo(_controller),
+            if (showInfo) VideoInfo(_controller).marginSymmetric(vertical: 40,horizontal: 20),
           ],
         ),
       ),

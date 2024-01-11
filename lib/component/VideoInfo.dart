@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 
-import '../main.dart';
 
 class VideoInfo extends StatefulWidget {
   final VideoPlayerController controller;
@@ -48,6 +47,6 @@ class _VideoInfoState extends State<VideoInfo> {
         Text("volume:${_controller.value.volume}"),
         Text("playbackSpeed:${_controller.value.playbackSpeed}"),
       ],
-    ).backgroundColor(Colors.white.withOpacity(0.9));
+    ).backgroundColor(Colors.grey.withOpacity(0.9));
   }
 }

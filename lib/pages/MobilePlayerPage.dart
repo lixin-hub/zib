@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/MediaKitPlayer.dart';
 
@@ -39,11 +37,17 @@ class _MobilePlayerPageState extends State<MobilePlayerPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          _player.constrained(height: height),
+          Container(
+              constraints: BoxConstraints(maxHeight: height),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                  color: const Color(0xff294F7E), borderRadius: BorderRadius.circular(20)),
+              child:
+                  Container(decoration: const BoxDecoration(color: Colors.white), child: _player)),
+          const SizedBox(height: 10),
           const Expanded(child: VideoReview())
         ],
       ),
     );
   }
-
 }

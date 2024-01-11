@@ -39,9 +39,17 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(child: _player).expanded(flex: 1),
-          const VideoReview()
-              .constrained(maxWidth: min(400, 400 * (cons.maxWidth / 1080)))
+          Container(
+                  padding: const EdgeInsets.symmetric(vertical: 100),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff294F7E), borderRadius: BorderRadius.circular(20)),
+                  child: Container(
+                      decoration: const BoxDecoration(color: Colors.white), child: _player))
+              .expanded(flex: 1),
+          const SizedBox(width: 10),
+          Container(
+              constraints: BoxConstraints(maxWidth: min(400, 400 * (cons.maxWidth / 1080))),
+              child: const VideoReview())
         ],
       );
     });

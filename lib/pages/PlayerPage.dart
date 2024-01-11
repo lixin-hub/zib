@@ -23,8 +23,8 @@ class _PlayerPageState extends State<PlayerPage> {
   void initState() {
     super.initState();
     logger.i("_PlayerPageState init");
-    _controller = VideoPlayerController.networkUrl(Uri.parse(
-        "http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8"));
+    _controller = VideoPlayerController.networkUrl(
+        Uri.parse("http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8"));
     // Uri.parse("https://pull-flv-l1.douyincdn.com/game/stream-690873598648516661_or4.flv?abr_pts=-800&_session_id=037-202401101923126632A97451C5222F1699.1704885799941.88032"));
     // Uri.parse(
     //     "https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4"));
@@ -49,13 +49,25 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text("player"),
       ),
-      body:
-          Center(child: (width < 700) ? _mobilePlayerPage : _desktopPlayerPage),
+      body: Container(
+        color: const Color(0x8a77afde),
+        child: Container(
+          // decoration: BoxDecoration(
+          //   color: const Color(0xff294F7E),
+          //   borderRadius: BorderRadius.circular(20)
+          // ),
+          padding: EdgeInsets.all(width / 1080 * 10),
+          child: Stack(
+            children: [(width < 700) ? _mobilePlayerPage : _desktopPlayerPage],
+          ),
+        ),
+      ),
     );
   }
 }

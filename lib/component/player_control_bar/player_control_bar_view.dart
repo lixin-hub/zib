@@ -27,6 +27,7 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // padding: EdgeInsets.symmetric(horizontal: 10),
       height: 50,
       color: Colors.blueGrey.withOpacity(0.2),
       child: Row(
