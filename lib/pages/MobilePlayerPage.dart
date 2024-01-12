@@ -39,12 +39,10 @@ class _MobilePlayerPageState extends State<MobilePlayerPage> {
         children: [
           Container(
               constraints: BoxConstraints(maxHeight: height),
-              padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: BoxDecoration(
                   color: const Color(0xff294F7E), borderRadius: BorderRadius.circular(20)),
               child:
                   Container(decoration: const BoxDecoration(color: Colors.white), child: _player)),
-          const SizedBox(height: 10),
           const Expanded(child: VideoReview())
         ],
       ),

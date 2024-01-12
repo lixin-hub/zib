@@ -24,14 +24,18 @@ class _VideoReviewState extends State<VideoReview> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    BorderRadius borderRadius = BorderRadius.zero;
+    if (width > 700) {
+      borderRadius =
+          const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20));
+    }
+
     return Column(
       children: [
         //用户区
         Container(
-          decoration: const BoxDecoration(
-              borderRadius:
-                  BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-              color: Color(0xff294F7E)),
+          decoration: BoxDecoration(borderRadius: borderRadius, color: const Color(0xff294F7E)),
           constraints: const BoxConstraints(maxHeight: 120),
           child: const UserRank(),
         ),
