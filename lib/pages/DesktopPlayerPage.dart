@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
-import 'package:zib/component/MediaKitPlayer.dart';
 
+import '../component/media_player_kit/media_player_kit_view.dart';
 import '../component/video_review/video_review_view.dart';
 
 class DesktopPlayerPage extends StatefulWidget {
@@ -25,7 +25,6 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
   void initState() {
     super.initState();
     _player = widget.player;
-    _controller = widget.player.controller;
   }
 
   @override

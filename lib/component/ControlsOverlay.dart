@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
 import 'package:zib/main.dart';
 
 class ControlsOverlay extends StatefulWidget {
-  const ControlsOverlay({super.key, required this.controller});
+  const ControlsOverlay(this.controllerLogic, {super.key});
 
   static const List<Duration> _exampleCaptionOffsets = <Duration>[
     Duration(seconds: -10),
@@ -27,114 +29,116 @@ class ControlsOverlay extends StatefulWidget {
     10.0,
   ];
 
-  final VideoPlayerController controller;
+  final MediaPlayerKitLogic controllerLogic;
 
   @override
   State<ControlsOverlay> createState() => _ControlsOverlayState();
 }
 
 class _ControlsOverlayState extends State<ControlsOverlay> {
+  late final MediaPlayerKitLogic _controllerLogic;
   late final VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller;
+    _controllerLogic = widget.controllerLogic;
+    _controller = _controllerLogic.controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 50),
-          reverseDuration: const Duration(milliseconds: 200),
-          child: _controller.value.isPlaying
-              ? const SizedBox.shrink()
-              : Container(
-                  color: Colors.black26,
-                  child: const Center(
-                    child: Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                      size: 100.0,
-                      semanticLabel: 'Play',
+    return Obx(() {
+      return Stack(
+        children: <Widget>[
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 50),
+            reverseDuration: const Duration(milliseconds: 200),
+            child: _controllerLogic.isPlaying.value
+                ? const SizedBox.shrink()
+                : Container(
+                    color: Colors.black26,
+                    child: const Center(
+                      child: Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 100.0,
+                        semanticLabel: 'Play',
+                      ),
                     ),
                   ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _controller.value.isPlaying ? _controller.pause() : _controller.play();
+              });
+            },
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Material(
+              child: PopupMenuButton<Duration>(
+                initialValue: _controller.value.captionOffset,
+                tooltip: 'Caption Offset',
+                onSelected: (Duration delay) {
+                  _controller.setCaptionOffset(delay);
+                },
+                itemBuilder: (BuildContext context) {
+                  return <PopupMenuItem<Duration>>[
+                    for (final Duration offsetDuration in ControlsOverlay._exampleCaptionOffsets)
+                      PopupMenuItem<Duration>(
+                        value: offsetDuration,
+                        child: Text('${offsetDuration.inMilliseconds}ms'),
+                      )
+                  ];
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    // Using less vertical padding as the text is also longer
+                    // horizontally, so it feels like it would need more spacing
+                    // horizontally (matching the aspect ratio of the video).
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  child: Text('${_controller.value.captionOffset.inMilliseconds}ms'),
                 ),
-        ),
-        GestureDetector(
-          onTap: () {
-            logger.i("message");
-            setState(() {
-              _controller.value.isPlaying
-                  ? _controller.pause()
-                  : _controller.play();
-            });
-          },
-        ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: PopupMenuButton<Duration>(
-            initialValue: _controller.value.captionOffset,
-            tooltip: 'Caption Offset',
-            onSelected: (Duration delay) {
-              _controller.setCaptionOffset(delay);
-            },
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuItem<Duration>>[
-                for (final Duration offsetDuration
-                    in ControlsOverlay._exampleCaptionOffsets)
-                  PopupMenuItem<Duration>(
-                    value: offsetDuration,
-                    child: Text('${offsetDuration.inMilliseconds}ms'),
-                  )
-              ];
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                // Using less vertical padding as the text is also longer
-                // horizontally, so it feels like it would need more spacing
-                // horizontally (matching the aspect ratio of the video).
-                vertical: 12,
-                horizontal: 16,
               ),
-              child: Text(
-                  '${_controller.value.captionOffset.inMilliseconds}ms'),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: PopupMenuButton<double>(
-            initialValue: _controller.value.playbackSpeed,
-            tooltip: 'Playback speed',
-            onSelected: (double speed) {
-              _controller.setPlaybackSpeed(speed);
-            },
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuItem<double>>[
-                for (final double speed
-                    in ControlsOverlay._examplePlaybackRates)
-                  PopupMenuItem<double>(
-                    value: speed,
-                    child: Text('${speed}x'),
-                  )
-              ];
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                // Using less vertical padding as the text is also longer
-                // horizontally, so it feels like it would need more spacing
-                // horizontally (matching the aspect ratio of the video).
-                vertical: 12,
-                horizontal: 16,
+          Align(
+            alignment: Alignment.topRight,
+            child: Material(
+              child: PopupMenuButton<double>(
+                initialValue: _controller.value.playbackSpeed,
+                tooltip: 'Playback speed',
+                onSelected: (double speed) {
+                  _controller.setPlaybackSpeed(speed);
+                },
+                itemBuilder: (BuildContext context) {
+                  return <PopupMenuItem<double>>[
+                    for (final double speed in ControlsOverlay._examplePlaybackRates)
+                      PopupMenuItem<double>(
+                        value: speed,
+                        child: Text('${speed}x'),
+                      )
+                  ];
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    // Using less vertical padding as the text is also longer
+                    // horizontally, so it feels like it would need more spacing
+                    // horizontally (matching the aspect ratio of the video).
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  child: Text('${_controller.value.playbackSpeed}x'),
+                ),
               ),
-              child: Text('${_controller.value.playbackSpeed}x'),
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

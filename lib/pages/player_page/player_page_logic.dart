@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
-
-class PlayerControlBarLogic extends GetxController {
-  var size=40.0;
+class PlayerPageLogic extends GetxController {
 
   @override
   void onClose() {
+    // TODO: implement onClose
     super.onClose();
   }
 }

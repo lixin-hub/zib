@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-import 'package:zib/component/MediaKitPlayer.dart';
 
+import '../component/media_player_kit/media_player_kit_view.dart';
 import '../component/video_review/video_review_view.dart';
 
 class MobilePlayerPage extends StatefulWidget {
@@ -14,14 +13,12 @@ class MobilePlayerPage extends StatefulWidget {
 }
 
 class _MobilePlayerPageState extends State<MobilePlayerPage> {
-  late VideoPlayerController _controller;
   late MediaKitPlayer _player;
 
   @override
   void initState() {
     super.initState();
     _player = widget.player;
-    _controller = widget.player.controller;
   }
 
   @override
