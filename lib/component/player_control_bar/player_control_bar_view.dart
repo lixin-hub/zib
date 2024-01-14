@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
+import 'package:zib/component/player_control_bar/VideoProgressBar.dart';
 import 'package:zib/main.dart';
 
 import 'player_control_bar_logic.dart';
@@ -18,61 +21,115 @@ class PlayerControlBar extends StatefulWidget {
 
 class _PlayerControlBarState extends State<PlayerControlBar> {
   final logic = Get.put(PlayerControlBarLogic());
-  late  MediaPlayerKitLogic _controllerLogic;
+  late MediaPlayerKitLogic _controllerLogic;
   late final VideoPlayerController _controller;
   late bool isFullscreen;
+  double speed = 1;
 
   @override
   void initState() {
     super.initState();
     _controllerLogic = Get.put(MediaPlayerKitLogic());
-    _controller = _controllerLogic.controller;
     isFullscreen = Get.currentRoute.endsWith('/full_screen_player');
+    _controller = _controllerLogic.controller;
+    _controller.addListener(() {
+      final int bufferedEnd = _controller.value.buffered[0].end.inMilliseconds;
+      final int position = _controller.value.position.inMilliseconds;
+      print("diff: ${bufferedEnd - position}");
+      if (bufferedEnd - position < 1300) {
+        if (speed != 1) {
+          speed = 1;
+          _controller.setPlaybackSpeed(speed);
+        }
+      } else if (bufferedEnd - position < 10000) {
+        if (speed != 1.5) {
+          speed = 1.5;
+          _controller.setPlaybackSpeed(speed);
+        }
+      } else {
+        if (speed != 5) {
+          speed = 5;
+          _controller.setPlaybackSpeed(speed);
+        }
+      }
+      // logger.i("bufferd:${bufferedEnd} position:${position}");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.grey.withOpacity(0.3),
       child: Obx(() {
-        return Container(
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 50),
           // padding: EdgeInsets.symmetric(horizontal: 10),
-          height: 50,
-          color: Colors.blueGrey.withOpacity(0.2),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
             children: [
-              Row(
-                children: [
-                  _controllerLogic.isPlaying.value
-                      ? MyIconButton(Icons.pause, onPressed: () {
-                          setState(() {
-                            _controller.pause();
-                          });
-                        })
-                      : MyIconButton(Icons.play_arrow, onPressed: () {
-                          setState(() {
-                            _controller.play();
-                          });
-                        }),
-                  const MyIconButton(Icons.refresh)
-                ],
-              ).expanded(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MyIconButton(Icons.format_color_text_outlined),
-                  MyIconButton(Icons.volume_up_outlined),
-                  MyIconButton(!isFullscreen ? Icons.fullscreen_rounded : Icons.fullscreen_exit,
-                      onPressed: () {
-                    logger.i(Get.currentRoute);
-                    if (isFullscreen) {
-                      Get.back();
-                    } else {
-                      Get.toNamed('/full_screen_player', arguments: _controller);
-                    }
-                  }),
-                ],
-              ).expanded()
+              //controller h=35
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 35,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          _controllerLogic.isPlaying.value
+                              ? MyIconButton(Icons.pause, onPressed: () {
+                                  setState(() {
+                                    _controller.pause();
+                                  });
+                                })
+                              : MyIconButton(Icons.play_arrow, onPressed: () {
+                                  setState(() {
+                                    _controller.play();
+                                  });
+                                }),
+                          MyIconButton(Icons.refresh, onPressed: () {
+                            // final int bufferedEnd =
+                            //     _controller.value.buffered[0].end.inMilliseconds;
+                            // final int position = _controller.value.duration.inMilliseconds;
+                            // if (bufferedEnd - position > 1000) {
+                            //   logger.i("pos: $position buffer: $bufferedEnd diff: ${bufferedEnd - position}");
+                            //   logger.i("${Duration(milliseconds: position + 500).inMilliseconds}");
+                            //   _controller.seekTo(Duration(milliseconds: position+1000));
+                            // }
+                            // startPlaySpeed();
+                          })
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          MyIconButton(Icons.format_color_text_outlined),
+                          MyIconButton(Icons.volume_up_outlined),
+                          MyIconButton(
+                              !isFullscreen ? Icons.fullscreen_rounded : Icons.fullscreen_exit,
+                              onPressed: () {
+                            logger.i(Get.currentRoute);
+                            if (isFullscreen) {
+                              Get.back();
+                            } else {
+                              Get.toNamed('/full_screen_player', arguments: _controller);
+                            }
+                          }),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              //进度条
+              Align(
+                alignment: Alignment.topCenter,
+                child: VideoProgressBar(_controller,
+                    padding: EdgeInsets.zero,
+                    colors: const VideoProgressColors(playedColor: Colors.blue),
+                    allowScrubbing: true),
+              ),
             ],
           ),
         );

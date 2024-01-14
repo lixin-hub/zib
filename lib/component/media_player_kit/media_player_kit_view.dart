@@ -45,12 +45,7 @@ class MediaKitPlayer extends StatelessWidget {
               ),
 //覆盖层
               ControlsOverlay(logic),
-//进度条
-              VideoProgressIndicator(controller, allowScrubbing: true)
-                  .paddingSymmetric(horizontal: 10)
-                  .alignment(Alignment.bottomCenter),
 //控制栏
-              PlayerControlBar(logic).alignment(Alignment.bottomCenter),
 //控制器信息
               if (showInfo) VideoInfo(controller).marginSymmetric(vertical: 40, horizontal: 20),
             ],

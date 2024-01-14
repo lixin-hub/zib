@@ -11,9 +11,9 @@ class VideoReviewLogic extends GetxController {
   @override
   void onReady() {
     int count = 0;
-    timer = Timer.periodic(const Duration(milliseconds: 500), (t) {
+    timer = Timer.periodic(const Duration(milliseconds: 1000), (t) {
       list.add("评论：${count++}"*(count%5));
-      scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOutSine);
+      // scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOutSine);
     });
     super.onReady();
   }
