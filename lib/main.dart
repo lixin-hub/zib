@@ -20,30 +20,29 @@ Future<void> main() async {
       web: true,
       linux: true,
       android: true);
- if(Platform.isLinux||Platform.isMacOS||Platform.isWindows) {
-   //初始化窗口管理插件
-   await windowManager.ensureInitialized();
+  if (Platform.isLinux || Platform.isWindows) {
+    //初始化窗口管理插件
+    await windowManager.ensureInitialized();
 
-   WindowOptions windowOptions = const WindowOptions(
-     // size: Size(800, 600),
-     minimumSize: Size(400, 800),
-
-     center: true,
-     backgroundColor: Colors.transparent,
-     skipTaskbar: false,
-     // titleBarStyle: TitleBarStyle.hidden,
-   );
-   windowManager.waitUntilReadyToShow(windowOptions, () async {
-     await windowManager.show();
-     await windowManager.focus();
-   });
- }
+    WindowOptions windowOptions = const WindowOptions(
+      // size: Size(800, 600),
+      minimumSize: Size(400, 800),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      // titleBarStyle: TitleBarStyle.hidden,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
   runApp(GetMaterialApp(
+    debugShowCheckedModeBanner: false,
     //材质小组件包裹防止某些小部件报错 比如InkWell
     home: const Material(
         //包裹语言习惯排列方向的小部件，防止Text报错，
-        child: Directionality(
-            textDirection: TextDirection.ltr, child: HomePage())),
+        child: Directionality(textDirection: TextDirection.ltr, child: HomePage())),
     initialRoute: "/player",
     getPages: pages,
     defaultTransition: Transition.cupertino,

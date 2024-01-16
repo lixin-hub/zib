@@ -33,12 +33,6 @@ class _VideoReviewState extends State<VideoReview> {
 
     return Column(
       children: [
-        //用户区
-        Container(
-          decoration: BoxDecoration(borderRadius: borderRadius, color: const Color(0xff294F7E)),
-          constraints: const BoxConstraints(maxHeight: 120),
-          child: const UserRank(),
-        ),
         //评论区
         Container(
             width: double.infinity,
@@ -65,10 +59,7 @@ class _VideoReviewState extends State<VideoReview> {
             )).expanded(),
         //输入区
         Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-              color: Color(0xff294F7E)),
+          decoration: const BoxDecoration(color: Color(0xff294F7E)),
           constraints: const BoxConstraints(maxHeight: 150),
           child: const CommentInputRegin(),
         ),

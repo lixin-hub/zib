@@ -14,11 +14,7 @@ class MenuItem extends StatefulWidget {
   final bool isSelected;
   final MenuItemData itemData;
 
-  const MenuItem(
-      {super.key,
-      required this.onTap,
-      required this.itemData,
-      this.isSelected = false});
+  const MenuItem({super.key, required this.onTap, required this.itemData, this.isSelected = false});
 
   @override
   State<MenuItem> createState() => _MenuItemState();
@@ -50,15 +46,19 @@ class _MenuItemState extends State<MenuItem> {
           ),
           child: Row(
             children: [
-              Icon(widget.itemData.iconData,
-                      size: 12, color: ThemeColors.primaryTextColor)
-                  .padding(right: 8)
-                  .expanded(flex: 0),
-              Expanded(
-                child: Text(widget.itemData.title, maxLines: 1,overflow: TextOverflow.clip,)
-                    .textStyle(TextStyle(
-                        fontSize: 12, color: ThemeColors.primaryTextColor)),
-              )
+              Container(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(widget.itemData.iconData,
+                      size: 12, color: ThemeColors.primaryTextColor)),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.itemData.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontSize: 12, color: ThemeColors.primaryTextColor),
+                ),
+              ).expanded(flex: 1)
             ],
           ),
         ),

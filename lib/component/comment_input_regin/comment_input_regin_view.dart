@@ -60,7 +60,6 @@ class _CommentInputReginState extends State<CommentInputRegin> {
               ).expanded(),
             ],
           ),
-
           Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(

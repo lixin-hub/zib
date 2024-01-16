@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 
+import '../component/UserRank.dart';
 import '../component/media_player_kit/media_player_kit_view.dart';
 import '../component/video_review/video_review_view.dart';
 
@@ -20,6 +21,12 @@ class DesktopPlayerPage extends StatefulWidget {
 class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
   late VideoPlayerController _controller;
   late MediaKitPlayer _player;
+  bool isUserRankOpen = true;
+  bool isVideoReviewOpen = true;
+
+  get _userRankWidth => isUserRankOpen ? 60.0 : 0.0;
+
+  get _videoReviewWidth => isVideoReviewOpen ? 300.0 : 0.0;
 
   @override
   void initState() {
@@ -35,46 +42,107 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, cons) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
+      return Column(
         children: [
-          Container(
-              decoration: BoxDecoration(
-                  color: const Color(0xff294F7E), borderRadius: BorderRadius.circular(20)),
-              child: Column(
-                children: [
-                  //toolbar
-                  SizedBox(
-                    height: 100,
-                    child: Row(
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: IconButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                icon: const Icon(Icons.arrow_back_ios, color: Colors.white))),
-                      ],
-                    ),
-                  ),
-                  //player
-                  Container(decoration: const BoxDecoration(color: Colors.white), child: _player)
-                      .expanded(),
-                  //bottom
-                  const SizedBox(
-                    height: 100,
-                    child: Row(
-                      children: [],
-                    ),
-                  ),
-                ],
-              )).expanded(flex: 1),
-          const SizedBox(width: 10),
-          Container(
-              constraints: BoxConstraints(maxWidth: min(400, 400 * (cons.maxWidth / 1080))),
-              child: const VideoReview())
+          //toolbar
+          SizedBox(
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isUserRankOpen = !isUserRankOpen;
+                          });
+                        },
+                        icon: AnimatedRotation(
+                          turns: isUserRankOpen ? 0.5 : 0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInBack,
+                          child: const Icon(
+                            Icons.exit_to_app_outlined,
+                            color: Colors.white,
+                          ),
+                        )),
+                    IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(Icons.home, color: Colors.white)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isVideoReviewOpen = !isVideoReviewOpen;
+                          });
+                        },
+                        icon: AnimatedRotation(
+                          turns: isVideoReviewOpen ? 0 : 0.5,
+                          curve: Curves.easeInBack,
+                          duration: const Duration(milliseconds: 500),
+                          child: const Icon(
+                            Icons.exit_to_app_outlined,
+                            color: Colors.white,
+                          ),
+                        )),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              //用户区
+              AnimatedContainer(
+                width: _userRankWidth,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10)),
+                    color: Color(0xff294F7E)),
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.ease,
+                child: Column(
+                  children: [
+                    const UserRank(UserRankType.TYPE_CICLE).expanded(),
+                  ],
+                ),
+              ),
+              Container(
+                  decoration: const BoxDecoration(
+                      color: Color(0xff29407E)),
+                  child: Column(
+                    children: [
+                      //player
+                      Container(
+                              decoration: const BoxDecoration(color: Colors.white), child: _player)
+                          .expanded(),
+                      //bottom
+                      const SizedBox(
+                        height: 100,
+                        child: Row(
+                          children: [],
+                        ),
+                      ),
+                    ],
+                  )).expanded(flex: 1),
+              AnimatedContainer(
+                  width: _videoReviewWidth,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only( bottomRight: Radius.circular(10)),
+                      color: Color(0xff094F7E)),
+                  duration: const Duration(milliseconds: 200),
+                  constraints: BoxConstraints(maxWidth: min(400, 400 * (cons.maxWidth / 1080))),
+                  child: const VideoReview()),
+            ],
+          ).expanded(),
         ],
       );
     });

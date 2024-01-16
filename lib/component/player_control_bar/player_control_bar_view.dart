@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
 import 'package:zib/component/player_control_bar/VideoProgressBar.dart';
 import 'package:zib/main.dart';
@@ -111,10 +113,11 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
                           MyIconButton(
                               !isFullscreen ? Icons.fullscreen_rounded : Icons.fullscreen_exit,
                               onPressed: () {
-                            logger.i(Get.currentRoute);
                             if (isFullscreen) {
                               Get.back();
+                              windowManager.setFullScreen(false);
                             } else {
+                              windowManager.setFullScreen(true);
                               Get.toNamed('/full_screen_player', arguments: _controller);
                             }
                           }),
