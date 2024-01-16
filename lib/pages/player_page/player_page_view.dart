@@ -29,6 +29,7 @@ class _PlayerPageState extends State<PlayerPage> {
     _player = MediaKitPlayer();
     _controller = Get.find<MediaPlayerKitLogic>().controller;
     _controller.initialize().then((_) {
+      // _controller.play();
       setState(() {});
     });
     _mobilePlayerPage = MobilePlayerPage(_player);

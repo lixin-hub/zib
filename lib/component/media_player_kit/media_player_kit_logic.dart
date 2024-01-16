@@ -14,7 +14,7 @@ class MediaPlayerKitLogic extends GetxController {
     super.onInit();
     logger.i("_PlayerPageState init");
     controller = VideoPlayerController.networkUrl(
-        Uri.parse(OBS_URL_FLV));
+        Uri.parse(FFmpeg));
         // Uri.parse("http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8"));
     // Uri.parse("https://pull-flv-l1.douyincdn.com/game/stream-690873598648516661_or4.flv?abr_pts=-800&_session_id=037-202401101923126632A97451C5222F1699.1704885799941.88032"));
     // Uri.parse(

@@ -29,6 +29,8 @@ const MP4_360 =
 // final OBS_URL_RTMP = "rtmp://192.168.1.105:1985/myapp/test";
 // final OBS_URL_FLV =
 //     "http://192.168.1.105:80/live.flv?port=1985&app=myapp&stream=test";
-const OBS_URL_RTMP = "rtmp://10.1.202.61:1985/myapp/test";
+const OBS_URL_RTMP = "rtmp://193.112.200.88:1985/myapp/test";
 const OBS_URL_FLV =
-    "http://192.168.1.105:80/live.flv?port=1985&app=myapp&stream=test";
+    "http://193.112.200.88:80/live.flv?port=1985&app=myapp&stream=test";
+const SRS="http://193.112.200.88:8080/live/livestream.flv";
+const FFmpeg="http://localhost:80/live.flv?port=1985&app=myapp&stream=test";

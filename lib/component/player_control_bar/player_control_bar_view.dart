@@ -26,34 +26,36 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
   late bool isFullscreen;
   double speed = 1;
 
+  playRateAdjust() {
+    final int bufferedEnd = _controller.value.buffered[0].end.inMilliseconds;
+    final int position = _controller.value.position.inMilliseconds;
+    // print("diff: ${bufferedEnd - position}");
+    if (bufferedEnd - position < 1000) {
+      if (speed != 1) {
+        speed = 1;
+        _controller.setPlaybackSpeed(speed);
+      }
+    } else if (bufferedEnd - position < 10000) {
+      if (speed != 1.5) {
+        speed = 1.5;
+        _controller.setPlaybackSpeed(speed);
+      }
+    } else {
+      // if (speed != 5) {
+      //   speed = 5;
+      //   _controller.setPlaybackSpeed(speed);
+      // }
+    }
+    // logger.i("bufferd:${bufferedEnd} position:${position}");
+  }
+
   @override
   void initState() {
     super.initState();
     _controllerLogic = Get.put(MediaPlayerKitLogic());
     isFullscreen = Get.currentRoute.endsWith('/full_screen_player');
     _controller = _controllerLogic.controller;
-    _controller.addListener(() {
-      final int bufferedEnd = _controller.value.buffered[0].end.inMilliseconds;
-      final int position = _controller.value.position.inMilliseconds;
-      print("diff: ${bufferedEnd - position}");
-      if (bufferedEnd - position < 1300) {
-        if (speed != 1) {
-          speed = 1;
-          _controller.setPlaybackSpeed(speed);
-        }
-      } else if (bufferedEnd - position < 10000) {
-        if (speed != 1.5) {
-          speed = 1.5;
-          _controller.setPlaybackSpeed(speed);
-        }
-      } else {
-        if (speed != 5) {
-          speed = 5;
-          _controller.setPlaybackSpeed(speed);
-        }
-      }
-      // logger.i("bufferd:${bufferedEnd} position:${position}");
-    });
+    _controller.addListener(playRateAdjust);
   }
 
   @override
