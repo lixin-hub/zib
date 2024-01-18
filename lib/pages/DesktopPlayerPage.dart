@@ -45,7 +45,8 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
       return Column(
         children: [
           //toolbar
-          SizedBox(
+          Container(
+            decoration: const BoxDecoration(color: Color(0xff18171C)),
             height: 40,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,9 +105,8 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
               AnimatedContainer(
                 width: _userRankWidth,
                 decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10)),
-                    color: Color(0xff294F7E)),
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10)),
+                    color: Color(0xff1E1D23)),
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.ease,
                 child: Column(
@@ -115,29 +115,22 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
                   ],
                 ),
               ),
-              Container(
-                  decoration: const BoxDecoration(
-                      color: Color(0xff29407E)),
-                  child: Column(
-                    children: [
-                      //player
-                      Container(
-                              decoration: const BoxDecoration(color: Colors.white), child: _player)
-                          .expanded(),
-                      //bottom
-                      const SizedBox(
-                        height: 100,
-                        child: Row(
-                          children: [],
-                        ),
-                      ),
-                    ],
-                  )).expanded(flex: 1),
+              //中间部分
+              Column(
+                children: [
+                  //player
+                  Container(decoration: const BoxDecoration(color: Colors.white), child: _player)
+                      .expanded(),
+                  //bottom
+                  Container(
+                      decoration: const BoxDecoration(color: Color(0xff0E0E10)), child: const Info()),
+                ],
+              ).expanded(flex: 1),
               AnimatedContainer(
                   width: _videoReviewWidth,
                   decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only( bottomRight: Radius.circular(10)),
-                      color: Color(0xff094F7E)),
+                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
+                      color: Color(0xff17171B)),
                   duration: const Duration(milliseconds: 200),
                   constraints: BoxConstraints(maxWidth: min(400, 400 * (cons.maxWidth / 1080))),
                   child: const VideoReview()),
@@ -146,5 +139,116 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
         ],
       );
     });
+  }
+}
+
+class Info extends StatelessWidget {
+  const Info({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    TextStyle l1 = const TextStyle(color: Colors.white, fontWeight: FontWeight.w800);
+    TextStyle l2 = const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500);
+    TextStyle l3 = const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w300);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      height: 100,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          //头像
+          Row(
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Positioned(
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.red,
+                      backgroundImage: AssetImage("images/banner.png"),
+                    ),
+                  ),
+                  Positioned(
+                      bottom: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 2,
+                            ),
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: const Text(
+                          "LIVE",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ))
+                ],
+              ),
+              //基本信息
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("神奇的宇宙", style: l1).padding(bottom: 5),
+                  Text("第一集：宇宙的诞生", style: l2),
+                  Text(
+                    "宇宙的起源一直就是人类一直最寻的谜团...",
+                    style: l3,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          //播放信息
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all(null),
+                      padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 5)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ))),
+                  icon: const Icon(Icons.add_box),
+                  label: const Text("Fellow")),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  const Icon(
+                    Icons.person,
+                    color: Colors.orange,
+                    size: 16,
+                  ),
+                  const Text(
+                    "1024",
+                    style: TextStyle(color: Colors.orange, fontSize: 13),
+                  ),
+                  Text("12:30", style: l2).padding(left: 5),
+                  const Icon(
+                    Icons.more_vert,
+                    color: Colors.white,
+                    size: 15,
+                  )
+                ],
+              ).padding(top: 10)
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

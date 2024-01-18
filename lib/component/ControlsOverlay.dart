@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
 import 'package:zib/component/player_control_bar/player_control_bar_view.dart';
-import 'package:zib/main.dart';
 
 class ControlsOverlay extends StatefulWidget {
   const ControlsOverlay(this.controllerLogic, {super.key});

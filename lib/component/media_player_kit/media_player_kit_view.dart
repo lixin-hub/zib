@@ -1,11 +1,8 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
-import 'package:zib/component/player_control_bar/player_control_bar_view.dart';
 
 import '../ControlsOverlay.dart';
 import '../VideoInfo.dart';
@@ -40,7 +37,7 @@ class MediaKitPlayer extends StatelessWidget {
                     width: size.width,
                     height: size.height,
                     curve: Curves.ease,
-                    duration: const Duration(seconds: 1),
+                    duration: const Duration(milliseconds: 1000),
                     child: VideoPlayer(controller)),
               ),
 //覆盖层

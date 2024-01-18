@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:zib/component/barrage/barrage_view.dart';
 import 'package:zib/pages/FullScreenPlayer.dart';
 import 'package:zib/pages/HomePage.dart';
 import 'package:zib/pages/MyWebViewPage.dart';

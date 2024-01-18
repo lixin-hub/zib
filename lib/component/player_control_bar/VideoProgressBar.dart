@@ -122,7 +122,7 @@ class _VideoProgressBarState extends State<VideoProgressBar> {
             isHover = false;
           });
         },
-        child: Container(
+        child: SizedBox(
             height: maxHeight,
             child: Stack(
               alignment: Alignment.center,

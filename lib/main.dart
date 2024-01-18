@@ -36,8 +36,15 @@ Future<void> main() async {
       await windowManager.show();
       await windowManager.focus();
     });
+    // windowManager.addListener(MyWindowListener());
   }
   runApp(GetMaterialApp(
+    theme: ThemeData(
+      iconTheme: const IconThemeData(
+        color: Colors.white, // 设置图标颜色
+        size: 24.0, // 设置图标大小
+      ),
+    ),
     debugShowCheckedModeBanner: false,
     //材质小组件包裹防止某些小部件报错 比如InkWell
     home: const Material(
@@ -47,4 +54,62 @@ Future<void> main() async {
     getPages: pages,
     defaultTransition: Transition.cupertino,
   ));
+}
+
+class MyWindowListener extends WindowListener {
+  @override
+  void onWindowEnterFullScreen() {
+    windowManager.setTitleBarStyle(TitleBarStyle.hidden);
+  }
+
+  @override
+  void onWindowEvent(String eventName) {
+    // print(eventName);
+  }
+
+  @override
+  void onWindowFocus() {}
+
+  @override
+  void onWindowLeaveFullScreen() {
+    windowManager.setTitleBarStyle(TitleBarStyle.normal);
+  }
+
+  @override
+  void onWindowMaximize() {
+    windowManager.setAsFrameless();
+    windowManager.setTitleBarStyle(TitleBarStyle.hidden);
+  }
+
+  @override
+  void onWindowMinimize() {
+    windowManager.setTitleBarStyle(TitleBarStyle.normal);
+  }
+
+  @override
+  void onWindowMove() {}
+
+  @override
+  void onWindowMoved() {
+    windowManager.setTitleBarStyle(TitleBarStyle.normal);
+  }
+
+  @override
+  void onWindowResize() {}
+
+  @override
+  void onWindowResized() {
+    windowManager.setTitleBarStyle(TitleBarStyle.normal);
+  }
+
+  @override
+  void onWindowRestore() {}
+
+  @override
+  void onWindowUndocked() {}
+
+  @override
+  void onWindowUnmaximize() {
+    windowManager.setTitleBarStyle(TitleBarStyle.normal);
+  }
 }

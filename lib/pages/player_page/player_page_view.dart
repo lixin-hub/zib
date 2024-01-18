@@ -48,13 +48,13 @@ class _PlayerPageState extends State<PlayerPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.width;
     double padding = 0;
-    if (width > 700) {
-      padding = width / 1080 * 10;
-    }
+    // if (width > 700) {
+    //   // padding = width / 1080 * 10;
+    // }
     return Scaffold(
       body: Material(
         child: Container(
-          color: const Color(0x8a77afde),
+          // color: const Color(0x8a77afde),
           child: Container(
             // decoration: BoxDecoration(
             //   color: const Color(0xff294F7E),

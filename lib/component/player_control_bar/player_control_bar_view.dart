@@ -1,14 +1,10 @@
-import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
 import 'package:zib/component/player_control_bar/VideoProgressBar.dart';
-import 'package:zib/main.dart';
 
 import 'player_control_bar_logic.dart';
 
@@ -66,7 +62,7 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
       color: Colors.grey.withOpacity(0.3),
       child: Obx(() {
         return ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 50),
+          constraints: const BoxConstraints(maxHeight: 50),
           // padding: EdgeInsets.symmetric(horizontal: 10),
           child: Stack(
             children: [
@@ -108,8 +104,8 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          MyIconButton(Icons.format_color_text_outlined),
-                          MyIconButton(Icons.volume_up_outlined),
+                          const MyIconButton(Icons.format_color_text_outlined),
+                          const MyIconButton(Icons.volume_up_outlined),
                           MyIconButton(
                               !isFullscreen ? Icons.fullscreen_rounded : Icons.fullscreen_exit,
                               onPressed: () {

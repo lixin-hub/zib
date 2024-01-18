@@ -6,7 +6,7 @@ import 'barrage_logic.dart';
 
 //弹幕显示
 class BarrageOverlay extends StatefulWidget {
-  BarrageOverlay({Key? key}) : super(key: key);
+  const BarrageOverlay({super.key});
 
   @override
   State<BarrageOverlay> createState() => _BarrageOverlayState();
@@ -22,6 +22,6 @@ class _BarrageOverlayState extends State<BarrageOverlay> {
   }
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return const Placeholder();
   }
 }

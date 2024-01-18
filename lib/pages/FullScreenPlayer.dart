@@ -1,12 +1,9 @@
-import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:zib/main.dart';
 
 import '../component/media_player_kit/media_player_kit_view.dart';
 

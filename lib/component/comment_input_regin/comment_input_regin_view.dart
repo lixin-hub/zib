@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:window_manager/window_manager.dart';
 import 'comment_input_regin_logic.dart';
 
 class CommentInputRegin extends StatefulWidget {
@@ -23,21 +24,22 @@ class _CommentInputReginState extends State<CommentInputRegin> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           //tool bar
-          const Row(
+          const Divider(color: Colors.white,indent: 10,endIndent: 10,),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.color_lens),
-                  Icon(Icons.margin_rounded),
-                  Icon(Icons.mail),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.color_lens)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.margin_rounded)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
                 ],
               ),
               Row(
                 children: [
-                  Icon(Icons.color_lens),
-                  Icon(Icons.margin_rounded),
-                  Icon(Icons.mail),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.color_lens)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.margin_rounded)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
                 ],
               )
             ],
@@ -46,7 +48,7 @@ class _CommentInputReginState extends State<CommentInputRegin> {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 2),
-                color: Colors.white,
+                color: const Color(0xff46454A),
                 child: TextField(
                   maxLines: 2,
                   cursorWidth: 1,
@@ -59,7 +61,7 @@ class _CommentInputReginState extends State<CommentInputRegin> {
                 ),
               ).expanded(),
             ],
-          ),
+          ).padding(bottom: 5),
           Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
@@ -68,7 +70,9 @@ class _CommentInputReginState extends State<CommentInputRegin> {
                       borderRadius: BorderRadius.circular(5.0), // 设置圆角半径
                     )),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   child: const Text("发送")))
         ],
       ),
