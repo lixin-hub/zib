@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -15,8 +14,8 @@ class MediaKitPlayer extends StatelessWidget {
     controller = logic.controller;
   }
 
-  bool showInfo = false;
-  late var playerValue = const VideoPlayerValue(duration: Duration(milliseconds: 0)).obs;
+  final bool showInfo = false;
+  late final  playerValue = const VideoPlayerValue(duration: Duration(milliseconds: 0)).obs;
 
   @override
   Widget build(BuildContext context) {

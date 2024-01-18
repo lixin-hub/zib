@@ -15,11 +15,13 @@ class BarrageOverlay extends StatefulWidget {
 class _BarrageOverlayState extends State<BarrageOverlay> {
   final logic = Get.put(BarrageLogic());
   late VideoPlayerController _controller;
-@override
+
+  @override
   void initState() {
     super.initState();
-    _controller=Get.arguments;
+    _controller = Get.arguments;
   }
+
   @override
   Widget build(BuildContext context) {
     return const Placeholder();

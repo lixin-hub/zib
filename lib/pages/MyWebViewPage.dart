@@ -10,11 +10,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 // #docregion platform_imports
 // Import for Android features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
-
 // Import for iOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 // #enddocregion platform_imports
@@ -66,8 +64,7 @@ Future<WebViewController> _init(context) async {
     params = const PlatformWebViewControllerCreationParams();
   }
 
-  final WebViewController controller =
-      WebViewController.fromPlatformCreationParams(params);
+  final WebViewController controller = WebViewController.fromPlatformCreationParams(params);
   // #enddocregion platform_features
 
   controller
@@ -121,8 +118,7 @@ Page resource error:
   // #docregion platform_features
   if (controller.platform is AndroidWebViewController) {
     AndroidWebViewController.enableDebugging(true);
-    (controller.platform as AndroidWebViewController)
-        .setMediaPlaybackRequiresUserGesture(false);
+    (controller.platform as AndroidWebViewController).setMediaPlaybackRequiresUserGesture(false);
   }
   // #enddocregion platform_features
   return controller;

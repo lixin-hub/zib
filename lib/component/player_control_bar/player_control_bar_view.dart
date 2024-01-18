@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -25,6 +24,9 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
   double speed = 1;
 
   playRateAdjust() {
+    if (_controller.value.buffered.isEmpty) {
+      return;
+    }
     final int bufferedEnd = _controller.value.buffered[0].end.inMilliseconds;
     final int position = _controller.value.position.inMilliseconds;
     // print("diff: ${bufferedEnd - position}");

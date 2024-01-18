@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 
-
 class VideoInfo extends StatefulWidget {
   final VideoPlayerController controller;
 
@@ -16,8 +15,7 @@ class _VideoInfoState extends State<VideoInfo> {
   late final VideoPlayerController _controller;
 
   updateInfo() {
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override

@@ -59,8 +59,7 @@ class _VideoScrubberState extends State<MyVideoScrubber> {
         seekToRelativePosition(details.globalPosition);
       },
       onHorizontalDragEnd: (DragEndDetails details) {
-        if (_controllerWasPlaying &&
-            controller.value.position != controller.value.duration) {
+        if (_controllerWasPlaying && controller.value.position != controller.value.duration) {
           controller.play();
         }
       },

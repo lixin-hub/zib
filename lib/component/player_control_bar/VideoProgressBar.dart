@@ -114,9 +114,7 @@ class _VideoProgressBarState extends State<VideoProgressBar> {
             isHover = true;
           });
         },
-        onHover: (e) {
-
-        },
+        onHover: (e) {},
         onExit: (PointerExitEvent e) {
           setState(() {
             isHover = false;
@@ -135,7 +133,6 @@ class _VideoProgressBarState extends State<VideoProgressBar> {
                       size: maxHeight,
                       color: colors.playedColor,
                     )),
-
               ],
             ).constrained(maxHeight: maxHeight)),
       );

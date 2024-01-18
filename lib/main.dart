@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:zib/pages/HomePage.dart';
-import 'package:zib/router/GetPages.dart';
 import 'package:video_player_media_kit/video_player_media_kit.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:zib/pages/HomePage.dart';
+import 'package:zib/router/GetPages.dart';
 
 //日志
 var logger = Logger();

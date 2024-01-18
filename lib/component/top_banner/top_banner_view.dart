@@ -42,13 +42,13 @@ class TopBanner extends StatelessWidget {
                           fontSize: 48,
                           fontWeight: FontWeight.w800,
                           color: ThemeColors.primaryTextColor)),
-                  Text("风萧萧兮易水寒，壮士一去兮不复还。",
-                          style:
-                              TextStyle(color: ThemeColors.secondaryTextColor))
+                  Text("风萧萧兮易水寒，壮士一去兮不复还。", style: TextStyle(color: ThemeColors.secondaryTextColor))
                       .marginOnly(bottom: 12),
-                  ElevatedButton(onPressed: () {
-                    Get.toNamed('/webview');
-                  }, child: const Text("Go!"))
+                  ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed('/webview');
+                      },
+                      child: const Text("Go!"))
                 ]).marginOnly(bottom: 30, left: 24),
           ),
         ),

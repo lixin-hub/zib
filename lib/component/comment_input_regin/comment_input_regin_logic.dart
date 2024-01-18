@@ -1,5 +1,3 @@
 import 'package:get/get.dart';
 
-class CommentInputReginLogic extends GetxController {
-
-}
+class CommentInputReginLogic extends GetxController {}

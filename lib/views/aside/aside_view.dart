@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+
 import '../../common/ThemeColors.dart';
 import '../../component/MenuItem.dart';
 import 'aside_logic.dart';
@@ -21,8 +22,7 @@ class _AsideState extends State<Aside> {
   var _selectedIndex = 0;
 
   //reuse divider
-  var divider = SizedBox(
-      height: 24, child: Divider(height: 1, color: ThemeColors.nativeColor));
+  var divider = SizedBox(height: 24, child: Divider(height: 1, color: ThemeColors.nativeColor));
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _AsideState extends State<Aside> {
       logic.items.add(MenuItem(
         onTap: () => setState(() {
           _selectedIndex = i;
-          if(i==1){
+          if (i == 1) {
             // Get.toNamed("/highlight");
           }
         }),
@@ -84,8 +84,7 @@ class _AsideState extends State<Aside> {
             ],
           ),
         )
-            .constrained(
-                width: logic.isOpen.value ? maxWidth : 0, animate: true)
+            .constrained(width: logic.isOpen.value ? maxWidth : 0, animate: true)
             .animate(const Duration(milliseconds: 200), Curves.linear));
   }
 

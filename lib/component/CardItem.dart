@@ -56,9 +56,7 @@ class _CardItemState extends State<CardItem> {
         Positioned.fill(
           child: Container(
             decoration: BoxDecoration(
-                color: _isHover
-                    ? ThemeColors.selectedColor.withOpacity(0.2)
-                    : Colors.transparent,
+                color: _isHover ? ThemeColors.selectedColor.withOpacity(0.2) : Colors.transparent,
                 borderRadius: BorderRadius.circular(5)),
             // width: 400,
           ),

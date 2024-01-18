@@ -13,15 +13,12 @@ class CategoryRegin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      _category().marginOnly(bottom: 24),
-      _cardList().marginOnly(bottom: 24)
-    ]);
+    return Column(
+        children: [_category().marginOnly(bottom: 24), _cardList().marginOnly(bottom: 24)]);
   }
 }
 
 Widget _cardList() {
-
   return SizedBox(
     height: 280,
     child: ListView.builder(
@@ -30,9 +27,7 @@ Widget _cardList() {
       itemCount: 10,
       controller: ScrollController(),
       itemBuilder: (context, index) {
-        var item = index != 10
-            ? const CardItem().marginOnly(left: 12)
-            : const CardItem();
+        var item = index != 10 ? const CardItem().marginOnly(left: 12) : const CardItem();
         return item;
       },
     ),
@@ -46,9 +41,7 @@ Widget _category() {
     children: [
       Text("时下流行",
               style: TextStyle(
-                  color: ThemeColors.primaryTextColor,
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700))
+                  color: ThemeColors.primaryTextColor, fontSize: 32, fontWeight: FontWeight.w700))
           .marginOnly(right: 12),
       OutlinedButton(
         style: ButtonStyle(
@@ -58,20 +51,16 @@ Widget _category() {
                 ? ThemeColors.selectedColor
                 : ThemeColors.mainCentralColor;
           }),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0), // 设置圆角半径
           )),
-          side: MaterialStateProperty.all(
-              BorderSide(color: ThemeColors.selectedColor, width: 1.5)),
+          side: MaterialStateProperty.all(BorderSide(color: ThemeColors.selectedColor, width: 1.5)),
           // 这里设置边框颜色为红色
-          padding: MaterialStateProperty.all(
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 24)),
+          padding:
+              MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 5, horizontal: 24)),
         ),
         onPressed: () {},
-        child: Text("全部",
-            style:
-                TextStyle(color: ThemeColors.secondaryTextColor, fontSize: 12)),
+        child: Text("全部", style: TextStyle(color: ThemeColors.secondaryTextColor, fontSize: 12)),
       ).constrained(height: 25)
     ],
   );

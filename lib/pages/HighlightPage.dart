@@ -6,7 +6,6 @@ class HighlightPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("HighLight",
-        style: TextStyle(color: ThemeColors.primaryTextColor, fontSize: 48));
+    return Text("HighLight", style: TextStyle(color: ThemeColors.primaryTextColor, fontSize: 48));
   }
 }

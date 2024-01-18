@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:window_manager/window_manager.dart';
+
 import 'comment_input_regin_logic.dart';
 
 class CommentInputRegin extends StatefulWidget {
@@ -24,7 +24,11 @@ class _CommentInputReginState extends State<CommentInputRegin> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           //tool bar
-          const Divider(color: Colors.white,indent: 10,endIndent: 10,),
+          const Divider(
+            color: Colors.white,
+            indent: 10,
+            endIndent: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -70,9 +74,7 @@ class _CommentInputReginState extends State<CommentInputRegin> {
                       borderRadius: BorderRadius.circular(5.0), // 设置圆角半径
                     )),
                   ),
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   child: const Text("发送")))
         ],
       ),

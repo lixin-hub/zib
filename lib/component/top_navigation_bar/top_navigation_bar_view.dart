@@ -40,8 +40,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
                 },
                 icon: const Icon(Icons.menu),
               ),
-              Text("BULLY.com",
-                      style: TextStyle(color: ThemeColors.primaryTextColor))
+              Text("BULLY.com", style: TextStyle(color: ThemeColors.primaryTextColor))
                   .padding(horizontal: 12),
               Container(
                 decoration: BoxDecoration(
@@ -53,8 +52,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     // crossAxisAlignment:CrossAxisAlignment.stretch,
                     children: [
-                      Icon(Icons.search,
-                              color: ThemeColors.primaryTextColor, size: 14)
+                      Icon(Icons.search, color: ThemeColors.primaryTextColor, size: 14)
                           .marginOnly(left: 12, right: 12),
                       Center(
                         child: TextField(
@@ -65,8 +63,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
                               backgroundColor: Colors.transparent),
                           decoration: InputDecoration(
                               hintText: 'Search for something',
-                              hintStyle:
-                                  TextStyle(color: ThemeColors.nativeColor),
+                              hintStyle: TextStyle(color: ThemeColors.nativeColor),
                               border: InputBorder.none),
                           controller: controller,
                         ),
@@ -79,10 +76,8 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(Icons.message, color: ThemeColors.primaryTextColor)
-                  .marginOnly(right: 12),
-              Icon(Icons.person, color: ThemeColors.primaryTextColor)
-                  .marginOnly(right: 12),
+              Icon(Icons.message, color: ThemeColors.primaryTextColor).marginOnly(right: 12),
+              Icon(Icons.person, color: ThemeColors.primaryTextColor).marginOnly(right: 12),
               Icon(Icons.nightlight, color: ThemeColors.primaryTextColor)
             ],
           ).marginOnly(left: 12).expanded(flex: 0)
