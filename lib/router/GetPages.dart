@@ -3,6 +3,7 @@ import 'package:zib/pages/FullScreenPlayer.dart';
 import 'package:zib/pages/HomePage.dart';
 import 'package:zib/pages/MyWebViewPage.dart';
 
+import '../pages/live_management/live_management_view.dart';
 import '../pages/player_page/player_page_view.dart';
 
 final pages = <GetPage>[
@@ -16,4 +17,5 @@ final pages = <GetPage>[
       page: () => const FullScreenPlayer(),
       transition: Transition.topLevel),
   GetPage(name: "/webview", page: () => const MyWebViewPage()),
+  GetPage(name: "/management", page: () => LiveManagement()),
 ];

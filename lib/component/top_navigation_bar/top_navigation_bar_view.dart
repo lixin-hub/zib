@@ -76,9 +76,16 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(Icons.message, color: ThemeColors.primaryTextColor).marginOnly(right: 12),
-              Icon(Icons.person, color: ThemeColors.primaryTextColor).marginOnly(right: 12),
-              Icon(Icons.nightlight, color: ThemeColors.primaryTextColor)
+              IconButton(
+                icon: const Icon(Icons.message),
+                onPressed: () {},
+              ),
+              IconButton(
+                  onPressed: () {
+                    Get.toNamed("/management");
+                  },
+                  icon: const Icon(Icons.person)),
+              IconButton(icon: const Icon(Icons.nightlight), onPressed: () {})
             ],
           ).marginOnly(left: 12).expanded(flex: 0)
         ],
