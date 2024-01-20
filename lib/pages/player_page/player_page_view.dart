@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_view.dart';
-import 'package:zib/pages/DesktopPlayerPage.dart';
-import 'package:zib/pages/MobilePlayerPage.dart';
+import 'package:zib/views/DesktopPlayerPage.dart';
+import 'package:zib/views/MobilePlayerPage.dart';
 import 'package:zib/pages/player_page/player_page_logic.dart';
 
 import '../../main.dart';
