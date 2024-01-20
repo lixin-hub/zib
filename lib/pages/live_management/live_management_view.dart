@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:zib/main.dart';
+import 'package:zib/views/Dashboard.dart';
+import 'package:zib/views/VideosManage.dart';
 
+import '../../common/ThemeColors.dart';
 import 'live_management_logic.dart';
-
-const primaryColor = Color(0xff302F4E);
-const sideColor = Color(0xff313050);
-const backgroundColor = Color(0xff212437);
-const textColor = Color(0xff7874A7);
-const menuTextColor = Color(0xff9794A8);
-const sideWidth = 250.0;
-const menuFontStyle = TextStyle(fontSize: 20, color: Colors.indigo);
 
 class LiveManagement extends StatelessWidget {
   LiveManagement({super.key});
@@ -33,46 +29,49 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: primaryColor,
+      color: ThemeColors.primaryColor,
       height: 60,
       child: Row(
         children: [
           //logo
-          const SizedBox(
-            width: sideWidth,
+          SizedBox(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
+                IconButton(
+                    onPressed: () {
+                      Get.toNamed('/');
+                    },
+                    icon: const Icon(Icons.home, color: ThemeColors.menuTextColor)),
+                const Text(
                   "BIZ",
                   style: TextStyle(color: Colors.orange, fontSize: 40, fontWeight: FontWeight.w800),
                 ),
-                Icon(Icons.electric_bolt),
-                Icon(Icons.electric_bolt),
-                Icon(Icons.electric_bolt),
+                const Icon(Icons.electric_bolt, color: Colors.orange),
+                Icon(Icons.electric_bolt, color: Colors.orange.withOpacity(0.8)),
+                Icon(Icons.electric_bolt, color: Colors.orange.withOpacity(0.6)),
               ],
-            ),
+            ).padding(left: 5),
           ),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                const Row(
                   children: [
-                    const Text("首页", style: menuFontStyle).padding(left: 30),
-                    Text("账户中心", style: menuFontStyle.copyWith(color: menuTextColor))
-                        .padding(left: 30),
-                    Text("直播中心", style: menuFontStyle.copyWith(color: menuTextColor))
-                        .padding(left: 30),
+                    // const Text("管理首页", style: selectedMenuFontStyle).padding(left: 20),
+                    // const Text("账户管理", style: unSelectedMenuFontStyle).padding(left: 30),
+                    // const Text("视频管理", style: unSelectedMenuFontStyle).padding(left: 30),
                   ],
-                ),
+                ).expanded(flex: 0),
                 Row(
                   children: [
                     const CircleAvatar(
                       backgroundColor: Colors.red,
                       backgroundImage: AssetImage("images/banner.png"),
                     ),
-                    const Text("LowIQBully", style: TextStyle(fontSize: 20, color: menuTextColor))
+                    const Text("LowIQBully",
+                            style: TextStyle(fontSize: 20, color: ThemeColors.menuTextColor))
                         .padding(horizontal: 10),
                     Container(
                       width: 1,
@@ -84,10 +83,10 @@ class Header extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Icon(
                           Icons.exit_to_app_rounded,
-                          color: menuTextColor,
+                          color: ThemeColors.menuTextColor,
                         ))
                   ],
-                )
+                ).expanded(flex: 0)
               ],
             ).padding(horizontal: 20),
           ),
@@ -97,117 +96,148 @@ class Header extends StatelessWidget {
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor,
-      child: const Row(
-        children: [Side(), Expanded(child: Main())],
-      ),
-    );
-  }
+  State<Body> createState() => _BodyState();
 }
 
-class Side extends StatelessWidget {
-  const Side({super.key});
+class _BodyState extends State<Body> {
+  _onDestinationSelected(int index) {
+    if (_currentSelectIndex != index) {
+      setState(() {
+        _currentSelectIndex = index;
+      });
+    }
+  }
+
+  var _currentSelectIndex = 0;
+  final _menus = <Widget>[
+    const Dashboard(),
+    const VideosManage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: sideWidth,
-      margin: const EdgeInsets.symmetric(vertical: 30),
-      decoration: BoxDecoration(color: sideColor, borderRadius: BorderRadius.circular(10)),
-      child: const Column(
-        children: [],
-      ),
-    );
-  }
-}
-
-class Main extends StatelessWidget {
-  const Main({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-      color: backgroundColor,
-      child: const Column(
-        children: [Dashboard(), Expanded(child: LiveList())],
-      ),
-    );
-  }
-}
-
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(10)),
-      child: const Row(
-        children: [],
-      ),
-    );
-  }
-}
-
-class LiveList extends StatelessWidget {
-  const LiveList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: Column(
+      color: ThemeColors.backgroundColor,
+      child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.electric_bolt),
-                  label: const Text("直播列表"),
-                  style: ButtonStyle(
-                      shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0), // 设置圆角半径
-                      )),
-                      backgroundColor: MaterialStateProperty.all(Colors.transparent)),
-                  onPressed: () {},
-                ),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.add),
-                  label: const Text("创建直播"),
-                  style: ButtonStyle(
-                      shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0), // 设置圆角半径
-                      )),
-                      backgroundColor: MaterialStateProperty.all(Colors.transparent)),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
+          Side(_onDestinationSelected),
           Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration:
-                  BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(10)),
-              child: const Column(
-                children: [],
-              ),
-            ),
-          )
+              child: Container(
+                  padding: const EdgeInsets.all(30),
+                  child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        var begin = Offset(_currentSelectIndex > 0 ? 1.0 : 1.0, 0.0);
+                        var end = Offset.zero;
+                        var curve = Curves.ease;
+
+                        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                        var offsetAnimation = animation.drive(tween);
+
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                      child: _currentSelectIndex < _menus.length
+                          ? _menus[_currentSelectIndex]
+                          : const Center(
+                              child: Text(
+                                "空空如野",
+                                style: ThemeColors.selectedMenuFontStyle,
+                              ),
+                            ))))
         ],
       ),
     );
+  }
+}
+
+class Side extends StatefulWidget {
+  final ValueChanged<int> selectChange;
+
+  const Side(this.selectChange, {super.key});
+
+  @override
+  State<Side> createState() => _SideState();
+}
+
+class _SideState extends State<Side> {
+  var _selectedIndex = 0;
+  var _extended = false;
+  static const sideWidth = 200.0;
+
+  _onDestinationSelected(int index) {
+    logger.i(index);
+    widget.selectChange(index);
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const List<NavigationRailDestination> destinations = [
+      NavigationRailDestination(
+          icon: Icon(Icons.dashboard_outlined),
+          label: Text(
+            "Dashboard",
+            style: ThemeColors.unSelectedMenuFontStyle,
+          )),
+      NavigationRailDestination(
+          icon: Icon(Icons.video_camera_back_outlined),
+          label: Text(
+            "视频管理",
+            style: ThemeColors.unSelectedMenuFontStyle,
+          )),
+      NavigationRailDestination(
+          icon: Icon(Icons.rocket_launch_outlined),
+          label: Text(
+            "评论机器人",
+            style: ThemeColors.unSelectedMenuFontStyle,
+          )),
+      NavigationRailDestination(
+          icon: Icon(Icons.rate_review_outlined),
+          label: Text(
+            "评论与弹幕",
+            style: ThemeColors.unSelectedMenuFontStyle,
+          )),
+      NavigationRailDestination(
+          icon: Icon(Icons.account_box_outlined),
+          label: Text(
+            "账户管理",
+            style: ThemeColors.unSelectedMenuFontStyle,
+          )),
+    ];
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 30),
+        decoration:
+            BoxDecoration(color: ThemeColors.sideColor, borderRadius: BorderRadius.circular(10)),
+        child: NavigationRail(
+            leading: Container(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                    icon: const Icon(
+                      Icons.menu,
+                      color: ThemeColors.menuTextColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _extended = !_extended;
+                      });
+                    })),
+            elevation: 2,
+            extended: _extended,
+            backgroundColor: Colors.transparent,
+            onDestinationSelected: _onDestinationSelected,
+            destinations: destinations,
+            selectedIndex: _selectedIndex,
+            minExtendedWidth: sideWidth));
   }
 }

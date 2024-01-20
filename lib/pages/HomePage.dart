@@ -21,12 +21,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void activate() {
-    super.activate();
-    zoomDrawerController.open?.call();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: ZoomDrawer(
@@ -39,7 +33,7 @@ class _HomePageState extends State<HomePage> {
             angle: -5.0,
             mainScreenScale: 0.2,
             mainScreenTapClose: true,
-            menuScreenTapClose: false,
+            menuScreenTapClose: true,
             drawerShadowsBackgroundColor: Colors.grey));
   }
 }
