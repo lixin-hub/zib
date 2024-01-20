@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
@@ -15,9 +16,9 @@ class TopNavigationBar extends StatefulWidget {
 
 class _TopNavigationBarState extends State<TopNavigationBar> {
   TextEditingController controller = TextEditingController();
-
   final logic = Get.put(TopNavigationBarLogic());
   final aside = Get.put(AsideLogic());
+  final zoomDrawerController = Get.find<ZoomDrawerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,8 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
               IconButton(
                 color: ThemeColors.primaryTextColor,
                 onPressed: () {
-                  aside.toggleAside();
+                  // aside.toggleAside();
+                  zoomDrawerController.toggle?.call();
                 },
                 icon: const Icon(Icons.menu),
               ),
