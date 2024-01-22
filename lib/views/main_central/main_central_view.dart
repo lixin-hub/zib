@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
-import 'package:zib/component/category_regin/category_regin_view.dart';
+import 'package:zib/component/CategoryRegin.dart';
 import 'package:zib/component/top_banner/top_banner_view.dart';
 
 import 'main_central_logic.dart';

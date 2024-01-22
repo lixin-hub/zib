@@ -38,14 +38,14 @@ class _CommentInputReginState extends State<CommentInputRegin> {
                   IconButton(onPressed: () {}, icon: const Icon(Icons.margin_rounded)),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
                 ],
-              ),
+              ).expanded(),
               Row(
                 children: [
                   IconButton(onPressed: () {}, icon: const Icon(Icons.color_lens)),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.margin_rounded)),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.mail)),
                 ],
-              )
+              ).expanded()
             ],
           ),
           Row(

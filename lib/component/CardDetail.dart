@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../common/ThemeColors.dart';
@@ -9,44 +10,119 @@ class CardDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height:300,
+      height: 500,
       child: Stack(
         children: [
-          GestureDetector(onTap: () {
-          }),
-          Align(
-            alignment: Alignment.center,
-            child: Stack(alignment: Alignment.center, children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Image.asset(
+          //body
+          Column(
+            children: [
+              //backgroun图像
+              SizedBox(
+                height: 150,
+                child: Stack(
+                  children: [
+                    Image.asset(
                       "images/card.jpg",
                       fit: BoxFit.cover,
-                    ).aspectRatio(aspectRatio: 10 / 9),
+                      width: 300,
+                    ),
+                    //播放按钮
+                    Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        hoverColor: Colors.grey.withOpacity(0.5),
+                        color: Colors.white.withOpacity(0.8),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.black.withOpacity(0.3))),
+                        iconSize: 30,
+                        icon: const Icon(Icons.play_arrow),
+                        onPressed: () {
+                          Get.toNamed("player");
+                        },
+                      ),
+                    ),
+                    //返回按钮
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        iconSize: 25,
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                    ),
+                  ],
+                ).backgroundColor(Colors.red),
+              ),
+              //body 内容
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 35, left: 10, right: 10),
+                  color: const Color(0xff292B2F),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //发布者
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "线性代数宋浩",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: ThemeColors.primaryTextColor,
+                                fontWeight: FontWeight.w500),
+                          ).marginOnly(right: 5),
+                          const Icon(
+                            Icons.auto_fix_high,
+                            color: ThemeColors.contentColorGreen,
+                            size: 16,
+                          )
+                        ],
+                      ).marginOnly(bottom: 6),
+                      //详情
+                      Text(
+                        "BBC记者深入报导日本地震灾区",
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: ThemeColors.primaryTextColor,
+                            fontSize: 16,
+                            overflow: TextOverflow.ellipsis),
+                      ).marginOnly(bottom: 5),
+                      Text(
+                        '''执行完成后就会在当前目录生成 flutter_build_demo_1.0.0.deb的文件，后面就可以使用 dpkg -i 命令对这个 deb 包进行安装后续如果应用更新的话只需要将编译生成的文件拷贝到这个打包目录的 opt/flutter_build_demo 目录下修改版本信息再重新打包即可，如果嫌每次都要手动拷贝麻烦也可以写个脚本来处理，比如 package.sh如下''',
+                        style: TextStyle(color: ThemeColors.secondaryTextColor, fontSize: 10),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "BBC记者深入报导日本地震灾区",
-                    maxLines: 1,
-                    style: TextStyle(
-                        color: ThemeColors.primaryTextColor,
-                        fontSize: 16,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                  Text(
-                    "这场7.6级的地震，造成至少48人死亡。日本首相表示，政府目前正在与时间赛跑，救援幸存者。",
-                    maxLines: 1,
-                    style: TextStyle(
-                        color: ThemeColors.secondaryTextColor,
-                        fontSize: 10,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                ],
-              ).constrained(width: 260),
-            ]),
+                ),
+              )
+            ],
+          ),
+          //头像
+          Positioned(
+            top: 120,
+            left: 10,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: Container(
+                decoration: BoxDecoration(color: const Color(0xff292B2F), boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.8), // 阴影颜色
+                    spreadRadius: 5, // 阴影扩散程度
+                    blurRadius: 10, // 阴影模糊程度
+                    offset: const Offset(0, 3), // 阴影偏移量，可以调整阴影的方向
+                  )
+                ]),
+                padding: const EdgeInsets.all(5),
+                child: const CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage("images/banner.png"),
+                ),
+              ),
+            ),
           )
         ],
       ),

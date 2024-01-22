@@ -3,13 +3,10 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
 
-import '../CardItem.dart';
-import 'category_regin_logic.dart';
+import 'CardItem.dart';
 
 class CategoryRegin extends StatelessWidget {
-  CategoryRegin({super.key});
-
-  final logic = Get.put(CategoryReginLogic());
+  const CategoryRegin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +57,7 @@ Widget _category() {
               MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 5, horizontal: 24)),
         ),
         onPressed: () {},
-        child: Text("全部", style: TextStyle(color: ThemeColors.secondaryTextColor, fontSize: 12)),
+        child: Text("全部", style: TextStyle(color: ThemeColors.secondaryTextColor, fontSize: 12))
       ).constrained(height: 25)
     ],
   );
