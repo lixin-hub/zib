@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/main.dart';
 import 'package:zib/views/Dashboard.dart';
-import 'package:zib/views/VideosManage.dart';
 
 import '../../common/ThemeColors.dart';
 import 'live_management_logic.dart';
@@ -104,81 +104,97 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  _onDestinationSelected(int index) {
-    if (_currentSelectIndex != index) {
-      setState(() {
-        _currentSelectIndex = index;
-      });
-    }
-  }
+  var liquidController = LiquidController();
+  var _currentInde = 0;
 
-  var _currentSelectIndex = 0;
-  final _menus = <Widget>[
-    const Dashboard(),
-    const VideosManage(),
-  ];
+  _onDestinationSelected(int index) {
+    logger.i("index:$index");
+    setState(() {
+      _currentInde = index;
+    });
+    liquidController.animateToPage(page: index);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final _menus = <Widget>[
+      const Dashboard(),
+      Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blue,
+      ),
+      Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.red,
+      ),
+      Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.grey,
+      ),
+      Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.indigo,
+      ),
+    ];
     return Container(
       color: ThemeColors.backgroundColor,
       child: Row(
         children: [
-          Side(_onDestinationSelected),
+          Side(_onDestinationSelected, _currentInde),
           Expanded(
               child: Container(
                   padding: const EdgeInsets.all(30),
-                  child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      transitionBuilder: (Widget child, Animation<double> animation) {
-                        var begin = Offset(_currentSelectIndex > 0 ? 1.0 : 1.0, 0.0);
-                        var end = Offset.zero;
-                        var curve = Curves.ease;
-
-                        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                        var offsetAnimation = animation.drive(tween);
-
-                        return SlideTransition(
-                          position: offsetAnimation,
-                          child: child,
-                        );
-                      },
-                      child: _currentSelectIndex < _menus.length
-                          ? _menus[_currentSelectIndex]
-                          : const Center(
-                              child: Text(
-                                "空空如野",
-                                style: ThemeColors.selectedMenuFontStyle,
-                              ),
-                            ))))
+                  child: LiquidSwipe(
+                    pages: _menus,
+                    liquidController: liquidController,
+                    waveType: WaveType.liquidReveal,
+                    onPageChangeCallback: (index) {
+                      _currentInde = index;
+                      setState(() {});
+                    },
+                  )))
         ],
       ),
     );
   }
 }
 
+// AnimatedSwitcher(
+// duration: const Duration(milliseconds: 500),
+// transitionBuilder: (Widget child, Animation<double> animation) {
+// var begin = Offset(_currentSelectIndex > 0 ? 1.0 : 1.0, 0.0);
+// var end = Offset.zero;
+// var curve = Curves.ease;
+//
+// var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+// var offsetAnimation = animation.drive(tween);
+//
+// return SlideTransition(
+// position: offsetAnimation,
+// child: child,
+// );
+// },
+// child:)
 class Side extends StatefulWidget {
   final ValueChanged<int> selectChange;
+  final int currentIndex;
 
-  const Side(this.selectChange, {super.key});
+  const Side(this.selectChange, this.currentIndex, {super.key});
 
   @override
   State<Side> createState() => _SideState();
 }
 
 class _SideState extends State<Side> {
-  var _selectedIndex = 0;
   var _extended = false;
   static const sideWidth = 200.0;
 
   _onDestinationSelected(int index) {
-    logger.i(index);
     widget.selectChange(index);
-    if (_selectedIndex != index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
   }
 
   @override
@@ -237,7 +253,7 @@ class _SideState extends State<Side> {
             backgroundColor: Colors.transparent,
             onDestinationSelected: _onDestinationSelected,
             destinations: destinations,
-            selectedIndex: _selectedIndex,
+            selectedIndex: widget.currentIndex,
             minExtendedWidth: sideWidth));
   }
 }

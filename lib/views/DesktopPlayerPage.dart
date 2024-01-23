@@ -240,7 +240,9 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
                       color: Color(0xff17171B)),
-                  duration: const Duration(milliseconds: 200),
+                  duration: (draging || dragHover)
+                      ? const Duration(milliseconds: 0)
+                      : const Duration(milliseconds: 200),
                   curve: Curves.ease,
                   constraints: BoxConstraints(maxWidth: min(400, 400 * (cons.maxWidth / 1080))),
                   child: Stack(
@@ -287,7 +289,8 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
                                 setState(() {
                                   _videoReviewWidth = diff;
                                   // 控制评论区最小宽度
-                                  _videoReviewWidth = _videoReviewWidth.clamp(100.0, double.infinity);
+                                  _videoReviewWidth =
+                                      _videoReviewWidth.clamp(100.0, double.infinity);
                                 });
                               },
                             )),

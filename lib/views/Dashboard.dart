@@ -11,7 +11,7 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [const Infos(), const LiveList().expanded()],
-    );
+    ).backgroundColor(ThemeColors.backgroundColor);
   }
 }
 
