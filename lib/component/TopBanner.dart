@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zib/common/ThemeColors.dart';
 
-import '../top_navigation_bar/top_navigation_bar_view.dart';
-import 'top_banner_logic.dart';
+import 'TopNavigationBar.dart';
 
 class TopBanner extends StatelessWidget {
-  TopBanner({super.key});
-
-  final logic = Get.put(TopBannerLogic());
+  const TopBanner({super.key});
 
   @override
   Widget build(BuildContext context) {

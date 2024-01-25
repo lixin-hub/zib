@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/component/CommentItem.dart';
-import 'package:zib/component/comment_input_regin/comment_input_regin_view.dart';
+import 'package:zib/component/CommentInputRegin.dart';
 
 import 'video_review_logic.dart';
 

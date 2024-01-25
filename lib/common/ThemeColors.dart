@@ -12,7 +12,8 @@ abstract final class ThemeColors {
 
   static var topBarColor = const Color.fromRGBO(0, 0, 0, 0.8);
 
-  static var searchBackgroundColor = const Color(0xff282A39);
+  static var searchBackgroundColor = const Color(0xff282A39).withOpacity(0.9);
+
 
   static const primaryColor = Color(0xff302F4E);
   static const sideColor = Color(0xff313050);

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
-
-import 'comment_input_regin_logic.dart';
 
 class CommentInputRegin extends StatefulWidget {
   const CommentInputRegin({super.key});
@@ -12,7 +9,6 @@ class CommentInputRegin extends StatefulWidget {
 }
 
 class _CommentInputReginState extends State<CommentInputRegin> {
-  final logic = Get.put(CommentInputReginLogic());
 
   TextEditingController textEditingController = TextEditingController();
 

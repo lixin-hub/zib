@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:zib/component/NeuButton.dart';
 import 'package:zib/main.dart';
 import 'package:zib/views/Dashboard.dart';
 
@@ -38,11 +39,16 @@ class Header extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                IconButton(
-                    onPressed: () {
-                      Get.toNamed('/');
-                    },
-                    icon: const Icon(Icons.home, color: ThemeColors.menuTextColor)),
+                NeuButton(
+                  child: const Icon(
+                    Icons.home,
+                    size: 20,
+                    color: ThemeColors.menuTextColor,
+                  ),
+                  onTap: () {
+                    Get.toNamed('/');
+                  },
+                ),
                 const Text(
                   "BIZ",
                   style: TextStyle(color: Colors.orange, fontSize: 40, fontWeight: FontWeight.w800),
@@ -81,9 +87,11 @@ class Header extends StatelessWidget {
                     ),
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Icon(
-                          Icons.exit_to_app_rounded,
-                          color: ThemeColors.menuTextColor,
+                        child: NeuButton(
+                          child: Icon(
+                            Icons.exit_to_app_rounded,
+                            color: ThemeColors.menuTextColor,
+                          ),
                         ))
                   ],
                 ).expanded(flex: 0)
@@ -117,7 +125,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    final _menus = <Widget>[
+    final menus = <Widget>[
       const Dashboard(),
       Container(
         height: double.infinity,
@@ -149,7 +157,7 @@ class _BodyState extends State<Body> {
               child: Container(
                   padding: const EdgeInsets.all(30),
                   child: LiquidSwipe(
-                    pages: _menus,
+                    pages: menus,
                     liquidController: liquidController,
                     waveType: WaveType.liquidReveal,
                     onPageChangeCallback: (index) {
