@@ -1,4 +1,6 @@
+import 'package:animated_neumorphic/animated_neumorphic.dart';
 import 'package:flutter/material.dart';
+import 'package:zib/common/ThemeColors.dart';
 
 class CommentItem extends StatelessWidget {
   final String comment;
@@ -14,34 +16,38 @@ class CommentItem extends StatelessWidget {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            constraints: BoxConstraints(maxWidth: constrained.maxWidth),
-            margin: const EdgeInsets.symmetric(vertical: 2),
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.black54.withOpacity(0.7)),
-            child: Wrap(
-              spacing: 2,
-              direction: Axis.horizontal,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  alignment: Alignment.centerLeft,
-                  height: 20,
-                  width: 20,
-                  child: const CircleAvatar(
-                    backgroundColor: Colors.amber,
-                    child: Icon(
-                      Icons.person,
-                      size: 20,
-                      color: Colors.deepOrange,
+          AnimatedNeumorphicContainer(
+            depth: 1.0,
+            color: ThemeColors.backgroundColor,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: constrained.maxWidth),
+              margin: const EdgeInsets.symmetric(vertical: 2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Wrap(
+                spacing: 2,
+                direction: Axis.horizontal,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    alignment: Alignment.centerLeft,
+                    height: 20,
+                    width: 20,
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.amber,
+                      child: Icon(
+                        Icons.person,
+                        size: 20,
+                        color: Colors.deepOrange,
+                      ),
                     ),
                   ),
-                ),
-                Text("$username:", style: const TextStyle(color: Colors.grey)),
-                Text(comment, style: const TextStyle(color: Colors.white)),
-              ],
+                  Text("$username:", style: const TextStyle(color: Colors.grey)),
+                  Text(comment, style: const TextStyle(color: Colors.white)),
+                ],
+              ),
             ),
           ),
         ],

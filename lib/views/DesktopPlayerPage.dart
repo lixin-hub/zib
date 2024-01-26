@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
+import 'package:zib/common/ThemeColors.dart';
+import 'package:zib/common/Types.dart';
+import 'package:zib/component/Toolbar.dart';
 
 import '../component/UserRank.dart';
 import '../component/media_player_kit/media_player_kit_view.dart';
@@ -16,6 +19,161 @@ class DesktopPlayerPage extends StatefulWidget {
 
   @override
   State<DesktopPlayerPage> createState() => _DesktopPlayerPageState();
+}
+
+class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
+  late VideoPlayerController _controller;
+  late MediaKitPlayer _player;
+  var dragHover = false;
+  var draging = false;
+  bool isVideoReviewOpen = true;
+  bool isUserRankOpen = true;
+  var _width = 300.0;
+
+  get _userRankWidth => isUserRankOpen ? 60.0 : 0.0;
+
+  get _videoReviewWidth => isVideoReviewOpen ? _width : 0.0;
+
+  set _videoReviewWidth(var v) {
+    _width = v;
+  }
+
+  void toolbarCallback(ToolbarCallbackType type) {
+    switch (type) {
+      case ToolbarCallbackType.BACK:
+        Get.back();
+        break;
+      case ToolbarCallbackType.REVIEW:
+        setState(() {
+          isVideoReviewOpen = !isVideoReviewOpen;
+        });
+        break;
+      case ToolbarCallbackType.USER_RANK:
+        setState(() {
+          isUserRankOpen = !isUserRankOpen;
+        });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, cons) {
+      return Column(
+        children: [
+          //toolbar
+          Toolbar(toolbarCallback),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              //用户区
+              AnimatedContainer(
+                width: _userRankWidth,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10)),
+                    color: Color(0xff1E1D23)),
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.ease,
+                child: Column(
+                  children: [
+                    const UserRank(UserRankType.TYPE_CICLE).expanded(),
+                  ],
+                ),
+              ),
+              //中间部分
+              Column(
+                children: [
+                  //player
+                  Container(decoration: const BoxDecoration(color: Colors.white), child: _player)
+                      .expanded(),
+                  //bottom
+                  Container(
+                      decoration: const BoxDecoration(
+                        color: ThemeColors.backgroundColor,
+                      ),
+                      child: const Info()),
+                ],
+              ).expanded(),
+              //评论区
+              AnimatedContainer(
+                  width: _videoReviewWidth,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
+                      color: Color(0xff17171B)),
+                  duration: (draging || dragHover)
+                      ? const Duration(milliseconds: 0)
+                      : const Duration(milliseconds: 200),
+                  curve: Curves.ease,
+                  constraints: BoxConstraints(maxWidth: min(400, 400 * (cons.maxWidth / 1080))),
+                  child: Stack(
+                    children: [
+                      const VideoReview(),
+                      // 拖动条
+                      Visibility(
+                        visible: dragHover || draging,
+                        child: Container(
+                            height: double.infinity,
+                            color: (draging || dragHover) ? ThemeColors.menuTextColor : Colors.transparent,
+                            child: const Icon(Icons.drag_indicator, size: 12)),
+                      ),
+                      MouseRegion(
+                        onEnter: (e) {
+                          setState(() {
+                            dragHover = true;
+                          });
+                        },
+                        onExit: (e) {
+                          setState(() {
+                            dragHover = false;
+                          });
+                        },
+                        cursor: SystemMouseCursors.resizeLeftRight,
+                        child: SizedBox(
+                            width: 15,
+                            child: GestureDetector(
+                              onHorizontalDragEnd: (e) {
+                                setState(() {
+                                  draging = false;
+                                });
+                              },
+                              onHorizontalDragCancel: () {
+                                setState(() {
+                                  draging = false;
+                                });
+                              },
+                              onHorizontalDragUpdate: (details) {
+                                draging = true;
+                                var dx = details.globalPosition.dx;
+                                var width = MediaQuery.of(context).size.width;
+                                var diff = width - dx;
+                                setState(() {
+                                  _videoReviewWidth = diff;
+                                  // 控制评论区最小宽度
+                                  _videoReviewWidth =
+                                      _videoReviewWidth.clamp(100.0, double.infinity);
+                                });
+                              },
+                            )),
+                      ),
+                    ],
+                  )),
+            ],
+          ).expanded(),
+        ],
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _player = widget.player;
+  }
 }
 
 class Info extends StatelessWidget {
@@ -126,192 +284,5 @@ class Info extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
-  late VideoPlayerController _controller;
-  late MediaKitPlayer _player;
-  bool isUserRankOpen = true;
-  bool isVideoReviewOpen = true;
-  var _width = 300.0;
-  var dragHover = false;
-  var draging = false;
-
-  get _userRankWidth => isUserRankOpen ? 60.0 : 0.0;
-
-  get _videoReviewWidth => isVideoReviewOpen ? _width : 0.0;
-
-  set _videoReviewWidth(var v) {
-    _width = v;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, cons) {
-      return Column(
-        children: [
-          //toolbar
-          Container(
-            decoration: const BoxDecoration(color: Color(0xff18171C)),
-            height: 40,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isUserRankOpen = !isUserRankOpen;
-                          });
-                        },
-                        icon: AnimatedRotation(
-                          turns: isUserRankOpen ? 0.5 : 0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInBack,
-                          child: const Icon(
-                            Icons.exit_to_app_outlined,
-                            color: Colors.white,
-                          ),
-                        )),
-                    IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.home, color: Colors.white)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVideoReviewOpen = !isVideoReviewOpen;
-                          });
-                        },
-                        icon: AnimatedRotation(
-                          turns: isVideoReviewOpen ? 0 : 0.5,
-                          curve: Curves.easeInBack,
-                          duration: const Duration(milliseconds: 500),
-                          child: const Icon(
-                            Icons.exit_to_app_outlined,
-                            color: Colors.white,
-                          ),
-                        )),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              //用户区
-              AnimatedContainer(
-                width: _userRankWidth,
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10)),
-                    color: Color(0xff1E1D23)),
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.ease,
-                child: Column(
-                  children: [
-                    const UserRank(UserRankType.TYPE_CICLE).expanded(),
-                  ],
-                ),
-              ),
-              //中间部分
-              Column(
-                children: [
-                  //player
-                  Container(decoration: const BoxDecoration(color: Colors.white), child: _player)
-                      .expanded(),
-                  //bottom
-                  Container(
-                      decoration: const BoxDecoration(color: Color(0xff0E0E10)),
-                      child: const Info()),
-                ],
-              ).expanded(),
-              //评论区
-              AnimatedContainer(
-                  width: _videoReviewWidth,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
-                      color: Color(0xff17171B)),
-                  duration: (draging || dragHover)
-                      ? const Duration(milliseconds: 0)
-                      : const Duration(milliseconds: 200),
-                  curve: Curves.ease,
-                  constraints: BoxConstraints(maxWidth: min(400, 400 * (cons.maxWidth / 1080))),
-                  child: Stack(
-                    children: [
-                      const VideoReview(),
-                      // 拖动条
-                      Visibility(
-                        visible: dragHover || draging,
-                        child: Container(
-                            height: double.infinity,
-                            color: (draging || dragHover) ? Colors.blue : Colors.transparent,
-                            child: const Icon(Icons.drag_indicator, size: 15)),
-                      ),
-                      MouseRegion(
-                        onEnter: (e) {
-                          setState(() {
-                            dragHover = true;
-                          });
-                        },
-                        onExit: (e) {
-                          setState(() {
-                            dragHover = false;
-                          });
-                        },
-                        cursor: SystemMouseCursors.resizeLeftRight,
-                        child: SizedBox(
-                            width: 50,
-                            child: GestureDetector(
-                              onHorizontalDragEnd: (e) {
-                                setState(() {
-                                  draging = false;
-                                });
-                              },
-                              onHorizontalDragCancel: () {
-                                setState(() {
-                                  draging = false;
-                                });
-                              },
-                              onHorizontalDragUpdate: (details) {
-                                draging = true;
-                                var dx = details.globalPosition.dx;
-                                var width = MediaQuery.of(context).size.width;
-                                var diff = width - dx;
-                                setState(() {
-                                  _videoReviewWidth = diff;
-                                  // 控制评论区最小宽度
-                                  _videoReviewWidth =
-                                      _videoReviewWidth.clamp(100.0, double.infinity);
-                                });
-                              },
-                            )),
-                      ),
-                    ],
-                  )),
-            ],
-          ).expanded(),
-        ],
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _player = widget.player;
   }
 }

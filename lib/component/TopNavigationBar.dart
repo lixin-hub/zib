@@ -1,3 +1,4 @@
+import 'package:animated_neumorphic/animated_neumorphic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
@@ -40,7 +41,9 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
                   }),
               Text("BULLY.com", style: TextStyle(color: ThemeColors.primaryTextColor))
                   .padding(horizontal: 12),
-              NeuButton(
+              AnimatedNeumorphicContainer(
+                depth: 0,
+                color: ThemeColors.searchBackgroundColor,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
