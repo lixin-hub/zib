@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:video_player_media_kit/video_player_media_kit.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:zib/common/Sp.dart';
 import 'package:zib/pages/HomePage.dart';
 import 'package:zib/router/GetPages.dart';
+
+import 'common/StoreController.dart';
 
 //日志
 var logger = Logger();
@@ -27,7 +30,7 @@ Future<void> main() async {
     WindowOptions windowOptions = const WindowOptions(
       // size: Size(800, 600),
       minimumSize: Size(400, 800),
-      center: true,
+      // center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
       // titleBarStyle: TitleBarStyle.hidden,
@@ -37,6 +40,12 @@ Future<void> main() async {
       await windowManager.focus();
     });
     // windowManager.addListener(MyWindowListener());
+  }
+  await SP.init();
+  StoreController store = Get.put(StoreController());
+  var token = SP.getString('token');
+  if (token.isNotEmpty) {
+    store.token = token;
   }
   runApp(GetMaterialApp(
     theme: ThemeData(
@@ -50,7 +59,7 @@ Future<void> main() async {
     home: const Material(
         //包裹语言习惯排列方向的小部件，防止Text报错，
         child: Directionality(textDirection: TextDirection.ltr, child: HomePage())),
-    initialRoute: "/",
+    initialRoute: store.token.isNotEmpty ? "/" : "/login",
     getPages: pages,
     defaultTransition: Transition.cupertino,
   ));

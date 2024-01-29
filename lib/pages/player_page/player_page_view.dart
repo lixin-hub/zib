@@ -23,18 +23,15 @@ class _PlayerPageState extends State<PlayerPage> {
     return Scaffold(
       body: Material(
         child: Container(
-          // color: const Color(0x8a77afde),
-          child: Container(
-            // decoration: BoxDecoration(
-            //   color: const Color(0xff294F7E),
-            //   borderRadius: BorderRadius.circular(20)
-            // ),
-            padding: EdgeInsets.all(padding),
-            child: Stack(
-              children: [
-                (width < 700) ? logic.mobilePlayerPage : logic.desktopPlayerPage,
-              ],
-            ),
+          // decoration: BoxDecoration(
+          //   color: const Color(0xff294F7E),
+          //   borderRadius: BorderRadius.circular(20)
+          // ),
+          padding: EdgeInsets.all(padding),
+          child: Stack(
+            children: [
+              (width < 700) ? logic.mobilePlayerPage : logic.desktopPlayerPage,
+            ],
           ),
         ),
       ),

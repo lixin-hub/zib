@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:zib/pages/LoginPage.dart';
 import 'package:zib/views/FullScreenPlayer.dart';
 import 'package:zib/pages/HomePage.dart';
 import 'package:zib/pages/MyWebViewPage.dart';
@@ -8,6 +9,7 @@ import '../pages/player_page/player_page_view.dart';
 
 final pages = <GetPage>[
   GetPage(name: "/", page: () => const HomePage()),
+  GetPage(name: "/login", page: () => const LoginPage()),
   // GetPage(name: "/explore", page: () => MainCentral()),
   // GetPage(name: "/highlight", page: () => const HighlightPage()),
   // GetPage(name: "/following", page: () => MainCentral()),

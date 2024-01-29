@@ -27,8 +27,7 @@ class _VideoReviewState extends State<VideoReview> {
     double width = MediaQuery.of(context).size.width;
     BorderRadius borderRadius = BorderRadius.zero;
     if (width > 700) {
-      borderRadius =
-          const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20));
+      borderRadius = const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20));
     }
 
     return Column(
