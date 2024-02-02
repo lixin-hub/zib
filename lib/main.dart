@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -48,18 +49,24 @@ Future<void> main() async {
     store.token = token;
   }
   runApp(GetMaterialApp(
+    darkTheme: ThemeData(
+        cupertinoOverrideTheme: const CupertinoThemeData(
+      textTheme: CupertinoTextThemeData(), // This is required
+    )),
     theme: ThemeData(
+      fontFamily: 'epilogue',
       iconTheme: const IconThemeData(
         color: Colors.white, // 设置图标颜色
         size: 24.0, // 设置图标大小
       ),
     ),
+
     debugShowCheckedModeBanner: false,
     //材质小组件包裹防止某些小部件报错 比如InkWell
     home: const Material(
         //包裹语言习惯排列方向的小部件，防止Text报错，
         child: Directionality(textDirection: TextDirection.ltr, child: HomePage())),
-    initialRoute: store.token.isNotEmpty ? "/" : "/login",
+    initialRoute: store.token.isNotEmpty ? "/management" : "/login",
     getPages: pages,
     defaultTransition: Transition.cupertino,
   ));
