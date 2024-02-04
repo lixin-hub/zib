@@ -89,6 +89,7 @@ flutter:
   assets:
    - images/
    - assets/
+   - assets/icons/
   fonts:
     - family: epilogue
       fonts:

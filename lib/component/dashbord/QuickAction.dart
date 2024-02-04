@@ -15,10 +15,8 @@ class _QuickActionState extends State<QuickAction> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.cyanAccent)),
+      decoration:
+          BoxDecoration(color: const Color(0xFFECF1FF), borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -28,8 +26,7 @@ class _QuickActionState extends State<QuickAction> {
             children: [
               const Text(
                 "Quick Actions",
-                style:
-                    TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Colors.cyanAccent),
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Colors.black),
               ),
               IconButton(
                   onPressed: () {},
@@ -46,8 +43,9 @@ class _QuickActionState extends State<QuickAction> {
             runSpacing: 10,
             children: [
               ActionIcon(Icons.timer_3, "快速直播", () {
-                showContextMenu(const Offset(150, 300), context, (e)=>[QuickLiveForm()],0.0,300.0);
-              // showModalBottomSheet(context: context, builder:  QuickLiveSheet().getSheetBuilder());
+                showContextMenu(
+                    const Offset(150, 300), context, (e) => [QuickLiveForm()], 0.0, 300.0);
+                // showModalBottomSheet(context: context, builder:  QuickLiveSheet().getSheetBuilder());
                 // showFlexibleBottomSheet(
                 //     context: context,
                 //     bottomSheetColor: Colors.transparent,
@@ -55,11 +53,10 @@ class _QuickActionState extends State<QuickAction> {
                 //     builder: QuickLiveSheet().getSheetBuilder());
               }),
               ActionIcon(Icons.add_a_photo_outlined, "加入直播", () {
-                showContextMenu(const Offset(150, 300), context, (e)=>[QuickLiveForm()],0.0,300.0);
-
+                showContextMenu(
+                    const Offset(150, 300), context, (e) => [QuickLiveForm()], 0.0, 300.0);
               }),
               ActionIcon(Icons.timer_sharp, "预订直播", () {}),
-              ActionIcon(Icons.video_collection_outlined, "收藏夹", () {}),
             ],
           ).marginOnly(bottom: 20)
         ],

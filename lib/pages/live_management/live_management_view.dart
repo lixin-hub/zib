@@ -157,6 +157,7 @@ class _BodyState extends State<Body> {
           Expanded(
               child: Container(
                   padding: const EdgeInsets.all(30),
+                  // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: LiquidSwipe(
                     pages: menus,
                     liquidController: liquidController,

@@ -2,17 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
+import 'package:zib/component/dashbord/CollectList.dart';
+import 'package:zib/component/dashbord/LiveIntent.dart';
+import 'package:zib/component/dashbord/MyBarChart.dart';
 import 'package:zib/component/dashbord/MyLineChart.dart';
+import 'package:zib/component/dashbord/MyPieChart.dart';
 import 'package:zib/component/dashbord/PageDetailTable.dart';
 import 'package:zib/component/dashbord/QuickAction.dart';
+import 'package:zib/component/dashbord/TodoList.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [const Left().expanded(), const Right().expanded()],
+    return Container(
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+      child: Row(
+        children: [const Left().width(350), const Right().expanded()],
+      ),
     );
   }
 }
@@ -23,19 +31,21 @@ class Left extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.green.withOpacity(0.5), borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-      const Text(
-        "Dashboard",
-        style: TextStyle(color: Colors.black, fontSize: 30),
-      ).marginSymmetric(vertical: 20),
-      const QuickAction().constrained(maxWidth: 372),
-              ],
-            ),
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Actions",
+            style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.w800),
+          ).marginSymmetric(vertical: 20),
+          const QuickAction(),
+          const TodoList().marginSymmetric(vertical: 10),
+          const CollectList().expanded()
+        ],
+      ),
     );
   }
 }
@@ -45,7 +55,39 @@ class Right extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return LayoutBuilder(builder: (context, cons) {
+      var w = cons.maxWidth;
+      var vw = w;
+      print('w:$w');
+      if (w > 800) {
+        vw = w - 540;
+      } else if (w < 800 && w > 600) {
+        vw = w - 290;
+      }
+      print('vw$vw');
+      return Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              "Data",
+              style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.w800),
+            ).marginSymmetric(vertical: 20),
+            SingleChildScrollView(
+              child: Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                children: [
+                  const LiveIntent().marginSymmetric(vertical: 10),
+                  const MyPieChart(), MyBarChart().constrained(maxWidth: vw), const MyPieChart()],
+              ),
+            ).expanded()
+          ],
+        ),
+      );
+    });
   }
 }
 

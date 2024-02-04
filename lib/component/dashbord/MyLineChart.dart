@@ -1,15 +1,42 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
+import 'package:zib/component/Indicator.dart';
 
 class MyLineChart extends StatelessWidget {
   const MyLineChart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-      sampleData1,
-      duration: const Duration(milliseconds: 250),
+    return Stack(
+      children: [
+        LineChart(
+          sampleData1,
+          duration: const Duration(milliseconds: 250),
+        ).padding(top: 20),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(width: 30),
+            Indicator(
+              size: 12,
+              color: ThemeColors.contentColorPurple,
+              text: '点赞',
+            ),
+            Indicator(
+              size: 12,
+              color: ThemeColors.contentColorCyan,
+              text: '评论',
+            ),
+            Indicator(
+              size: 12,
+              color: ThemeColors.contentColorPink,
+              text: '关注',
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -20,7 +47,7 @@ class MyLineChart extends StatelessWidget {
         borderData: borderData,
         lineBarsData: lineBarsData1,
         minX: 0,
-        maxX: 14,
+        maxX: 7,
         maxY: 4,
         minY: 0,
       );
@@ -32,7 +59,7 @@ class MyLineChart extends StatelessWidget {
         borderData: borderData,
         lineBarsData: lineBarsData2,
         minX: 0,
-        maxX: 14,
+        maxX: 7,
         maxY: 6,
         minY: 0,
       );
@@ -98,25 +125,66 @@ class MyLineChart extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 1:
-        text = '1m';
+        text = '10';
         break;
       case 2:
-        text = '2m';
+        text = '20';
         break;
       case 3:
-        text = '3m';
+        text = '30';
         break;
       case 4:
-        text = '5m';
+        text = '40';
         break;
       case 5:
-        text = '6m';
+        text = '50';
         break;
       default:
         return Container();
     }
 
     return Text(text, style: style, textAlign: TextAlign.center);
+  }
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    Widget text;
+    var day = DateTime.now().subtract(Duration(days: value.toInt())).weekday;
+    var weekDay = '$day';
+    switch (day) {
+      case 1:
+        weekDay = '一';
+        break;
+      case 2:
+        weekDay = '二';
+        break;
+      case 3:
+        weekDay = '三';
+        break;
+      case 4:
+        weekDay = '四';
+        break;
+      case 5:
+        weekDay = '五';
+        break;
+      case 6:
+        weekDay = '六';
+        break;
+      case 7:
+        weekDay = '日';
+        break;
+      default:
+        throw Exception('day的值不在1到7之间');
+    }
+    text = Text('周$weekDay', style: style);
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 10,
+      child: text,
+    );
   }
 
   SideTitles leftTitles() => SideTitles(
@@ -126,34 +194,6 @@ class MyLineChart extends StatelessWidget {
         reservedSize: 40,
       );
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('SEPT', style: style);
-        break;
-      case 7:
-        text = const Text('OCT', style: style);
-        break;
-      case 12:
-        text = const Text('DEC', style: style);
-        break;
-      default:
-        text = const Text('');
-        break;
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 10,
-      child: text,
-    );
-  }
-
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
         reservedSize: 32,
@@ -161,6 +201,7 @@ class MyLineChart extends StatelessWidget {
         getTitlesWidget: bottomTitleWidgets,
       );
 
+//网格
   FlGridData get gridData => const FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
@@ -181,13 +222,13 @@ class MyLineChart extends StatelessWidget {
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 1.5),
-          FlSpot(5, 1.4),
-          FlSpot(7, 3.4),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
+          FlSpot(0, 2),
+          FlSpot(1, 2),
+          FlSpot(2, 1.5),
+          FlSpot(3, 1.4),
+          FlSpot(4, 3.4),
+          FlSpot(5, 2),
+          FlSpot(6, 2.2),
         ],
       );
 
@@ -213,17 +254,20 @@ class MyLineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
         isCurved: true,
-        color: ThemeColors.contentColorCyan,
+        color: ThemeColors.contentColorPurple,
         barWidth: 8,
         isStrokeCapRound: true,
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: const [
-          FlSpot(1, 2.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 3),
-          FlSpot(10, 1.3),
-          FlSpot(13, 2.5),
+          FlSpot(0, 4),
+          FlSpot(1, 0),
+          FlSpot(2, 1),
+          FlSpot(3, 4),
+          FlSpot(4, 2.9),
+          FlSpot(5, 2.9),
+          FlSpot(6, 2.9),
+          FlSpot(7, 2.9),
         ],
       );
 
