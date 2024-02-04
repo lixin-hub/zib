@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:zib/api/index.dart';
-import 'package:zib/common/Sp.dart';
+import 'package:zib/api/user.dart';
 import 'package:zib/common/StoreController.dart';
 import 'package:zib/component/MyTextFiled.dart';
 
@@ -20,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   String? username;
   String? password;
   var store = Get.find<StoreController>();
-
 
   @override
   void initState() {
@@ -107,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                                     store.token = t;
                                     var data = await userInfoApi();
                                     var userInfo = data['data']['userInfo'];
+                                    store.user = userInfo;
                                   },
                                   child: const Text("登录"))
                             ],

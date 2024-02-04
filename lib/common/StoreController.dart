@@ -34,7 +34,14 @@ class StoreController extends GetxController {
     ));
   }
 
-  get user => _user;
+  get user {
+    try {
+      _user ??= SP.getMap('userInfo').cast<String, dynamic>();
+    } catch (e) {
+      Get.toNamed('login');
+    }
+    return _user;
+  }
 
   set user(value) {
     SP.setMap('userInfo', value);

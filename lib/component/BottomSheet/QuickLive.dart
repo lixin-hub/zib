@@ -1,6 +1,13 @@
+import 'package:flustars/flustars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:zib/api/live.dart';
+import 'package:zib/common/StoreController.dart';
 import 'package:zib/component/BottomSheet/BaseSheet.dart';
+import 'package:zib/main.dart';
 
 class QuickLiveSheet extends BaseSheet {
   @override
@@ -12,6 +19,7 @@ class QuickLiveSheet extends BaseSheet {
 class QuickLiveForm extends StatelessWidget {
   QuickLiveForm({super.key});
 
+  var storage = Get.find<StoreController>();
   final _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -19,10 +27,17 @@ class QuickLiveForm extends StatelessWidget {
     return Material(
       child: Container(
         // alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         // decoration: const BoxDecoration(color: Colors.white),
         child: FormBuilder(
           key: _formKey,
+          initialValue: {
+            'title': '直播标题-${DateFormat(DateFormats.zh_mo_d_h_m).format(DateTime.now())}',
+            'startTime': DateTime.now(),
+            'endTime': DateTime.now().add(const Duration(hours: 1)),
+            'permission': '1', //谁可以观看该直播 1好友 2除开好友  3指定人员(将查询指定记录表) 4 任何人
+            'interactionAllowed': true
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -35,6 +50,8 @@ class QuickLiveForm extends StatelessWidget {
               FormBuilderDateTimePicker(
                 name: 'startTime',
                 firstDate: DateTime.now(),
+                format: DateFormat(DateFormats.zh_y_mo_d_h_m),
+                valueTransformer: (value) => value?.toString(),
                 decoration: InputDecoration(
                   labelText: '开始时间',
                   helperText: '预计直播开始时间',
@@ -47,9 +64,11 @@ class QuickLiveForm extends StatelessWidget {
               ),
               FormBuilderDateTimePicker(
                 name: 'endTime',
+                format: DateFormat(DateFormats.zh_y_mo_d_h_m),
                 onChanged: (e) {
                   // print(_formKey.currentState?.fields['startTime']?.value);
                 },
+                valueTransformer: (value) => value?.toString(),
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(const Duration(hours: 12)),
                 decoration: InputDecoration(
@@ -68,29 +87,44 @@ class QuickLiveForm extends StatelessWidget {
                     helperText: '被选中的人员将拥有观看权限',
                     hintText: '点击选择时间',
                   ),
-                  name: 'users',
-                  initialValue: '1',
+                  name: 'permission',
                   onChanged: (e) {},
-                  items: const [
-                    DropdownMenuItem(
+                  items: [
+                    const DropdownMenuItem(
                       value: '1',
                       child: Text("仅好友"),
                     ),
-                    DropdownMenuItem(
+                    const DropdownMenuItem(
                       value: '2',
                       child: Text("除开好友"),
                     ),
                     DropdownMenuItem(
-                      child: Text("指定人员可观看"),
-                      // value: '3',
+                      value: '3',
+                      child: const Text("指定人员可观看"),
+                      onTap: () {
+                        showCupertinoDialog(
+                            context: context,
+                            builder: (c) {
+                              return const CupertinoAlertDialog();
+                            });
+                      },
                     ),
-                    DropdownMenuItem(
+                    const DropdownMenuItem(
                       value: '4',
                       child: Text("任何人"),
                     )
                   ]),
-              FormBuilderCheckbox(
-                  initialValue: true, name: 'allowInteraction', title: const Text('允许互动'))
+              FormBuilderCheckbox(name: 'interactionAllowed', title: const Text('允许互动')),
+              ElevatedButton(
+                  onPressed: () async {
+                    print(_formKey.currentState?.instantValue);
+                    var userId = storage.user['userId'];
+                    print('userId：$userId');
+                    var p = {"mainSpeaker": userId, ...?_formKey.currentState?.instantValue};
+                    logger.d(p);
+                    createLiveRoom(p).then((value) {});
+                  },
+                  child: const Text('创建'))
             ],
           ),
         ),
