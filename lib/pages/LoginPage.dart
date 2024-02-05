@@ -98,14 +98,19 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () async {
                                     print("$username $password");
                                     var r = await loginApi(username, password);
-                                    var t = r["token"];
-                                    if (t == null) {
+                                    var t = r["access_token"];
+                                    var c = r["client_id"];
+                                    if (t == null || c == null) {
                                       return;
                                     }
                                     store.token = t;
+                                    store.clientid = c;
                                     var data = await userInfoApi();
-                                    var userInfo = data['data']['userInfo'];
-                                    store.user = userInfo;
+                                    if (data != null) {
+                                      var userInfo = data['user'];
+                                      store.user = userInfo;
+                                      Get.toNamed('/management');
+                                    }
                                   },
                                   child: const Text("登录"))
                             ],

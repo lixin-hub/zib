@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:video_player_media_kit/video_player_media_kit.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:zib/api/live.dart';
 import 'package:zib/common/Sp.dart';
 import 'package:zib/pages/HomePage.dart';
 import 'package:zib/router/GetPages.dart';
@@ -45,8 +46,13 @@ Future<void> main() async {
   await SP.init();
   StoreController store = Get.put(StoreController());
   var token = SP.getString('token');
+  var clientid = SP.getString('clientid');
+  if (clientid.isNotEmpty) {
+    store.clientid = clientid;
+  }
   if (token.isNotEmpty) {
     store.token = token;
+    await userInfoApi();
   }
   runApp(GetMaterialApp(
     darkTheme: ThemeData(

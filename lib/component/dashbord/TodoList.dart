@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class TodoList extends StatelessWidget {
-  const TodoList({super.key, Key? key});
+  const TodoList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxHeight: 300),
-      padding: const EdgeInsets.only(top: 10,bottom: 10,left: 10),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF6F2),
         borderRadius: BorderRadius.circular(10),

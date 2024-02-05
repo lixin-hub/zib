@@ -5,6 +5,10 @@ import 'package:zib/main.dart';
 
 class StoreController extends GetxController {
   String _token = '';
+  String _clientid = '';
+
+
+
   Map<String, dynamic>? _user;
 
   String path = 'http://127.0.0.1:8080/';
@@ -19,7 +23,8 @@ class StoreController extends GetxController {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
         // 在请求前添加验证字段
-        options.headers['token'] = _token;
+        options.headers['Authorization'] ='Bearer $_token';
+        options.headers['clientid'] =_clientid;
         return handler.next(options);
       },
       onResponse: (response, handler) {
@@ -53,7 +58,12 @@ class StoreController extends GetxController {
   set dio(value) {
     _dio = value;
   }
+  String get clientid => _clientid;
 
+  set clientid(String value) {
+    _clientid = value;
+    SP.setString('clientid', value);
+  }
   String get token => _token;
 
   set token(String value) {
