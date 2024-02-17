@@ -1,17 +1,34 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
-import 'package:zib/common/StoreController.dart';
 
-StoreController controller = Get.find<StoreController>();
-Dio dio = controller.dio;
+import '../main.dart';
+
+Dio dio = store.dio;
 //创建直播
 createLiveRoom(params) async {
-  final response = await dio.post("live/room/save", data: params);
+  final response = await dio.post("live/room", data: params);
   return response.data;
 }
 
-//获取用户信息
-userInfoApi() async {
-  final response = await dio.get("/sys/user/sysInfo");
+//删除直播间
+deleteLiveRoom(id) async {
+  final response = await dio.delete("live/room/$id");
+  return response.data;
+}
+
+//更新直播间
+updateRoom(params) async {
+  final response = await dio.put("live/room", data: params);
+  return response.data;
+}
+
+//直播间列表
+liveRoomList(Map<String, dynamic>? params) async {
+  final response = await dio.get("live/room/list", queryParameters: params);
+  return response.data;
+}
+
+//根据id查询直播间
+liveRoomInfo(id) async {
+  final response = await dio.get("live/room/$id");
   return response.data;
 }

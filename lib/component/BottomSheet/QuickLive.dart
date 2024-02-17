@@ -9,6 +9,8 @@ import 'package:zib/common/StoreController.dart';
 import 'package:zib/component/BottomSheet/BaseSheet.dart';
 import 'package:zib/main.dart';
 
+import '../dashbord/todo_list/todo_list_logic.dart';
+
 class QuickLiveSheet extends BaseSheet {
   @override
   Widget layout(BuildContext? context) {
@@ -114,7 +116,12 @@ class QuickLiveForm extends StatelessWidget {
                       child: Text("任何人"),
                     )
                   ]),
-              FormBuilderCheckbox(name: 'interactionAllowed', title: const Text('允许互动')),
+              FormBuilderCheckbox(
+                  name: 'interactionAllowed',
+                  valueTransformer: (value) {
+                    return value == true ? 1 : 0;
+                  },
+                  title: const Text('允许互动')),
               ElevatedButton(
                   onPressed: () async {
                     print(_formKey.currentState?.instantValue);
@@ -122,7 +129,9 @@ class QuickLiveForm extends StatelessWidget {
                     print('userId：$userId');
                     var p = {"mainSpeaker": userId, ...?_formKey.currentState?.instantValue};
                     logger.d(p);
-                    createLiveRoom(p).then((value) {});
+                    createLiveRoom(p).then((value) {
+                      Get.find<TodoListLogic>().reload();
+                    });
                   },
                   child: const Text('创建'))
             ],

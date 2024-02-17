@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:zib/common/Sp.dart';
+import 'package:zib/main.dart';
 import 'package:zib/views/main_central/main_central_view.dart';
 
+import '../api/user.dart';
 import '../views/aside/aside_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +21,24 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    init() async {
+      var token = SP.getString('token');
+      var clientid = SP.getString('clientid');
+      if (clientid.isNotEmpty) {
+        store.clientid = clientid;
+      }
+      if (token.isNotEmpty) {
+        store.token = token;
+        var value = await userInfoApi();
+        if (value != null) {
+          Get.toNamed('/management');
+        }
+      } else {
+        Get.toNamed('/login');
+      }
+    }
+
+    init();
   }
 
   @override

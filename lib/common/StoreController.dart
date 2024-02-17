@@ -7,11 +7,9 @@ class StoreController extends GetxController {
   String _token = '';
   String _clientid = '';
 
-
-
   Map<String, dynamic>? _user;
 
-  String path = 'http://127.0.0.1:8080/';
+  String path = 'http://localhost:8080/';
   late Dio _dio;
 
   @override
@@ -21,21 +19,24 @@ class StoreController extends GetxController {
       baseUrl: path,
     ));
     _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        // 在请求前添加验证字段
-        options.headers['Authorization'] ='Bearer $_token';
-        options.headers['clientid'] =_clientid;
-        return handler.next(options);
-      },
-      onResponse: (response, handler) {
-        // 在响应拦截器中处理响应数据
-        if (response.statusCode == 401) {
-          Get.toNamed('/login');
-        }
-        logger.i('Response: $response');
-        // 继续传递响应数据，使其继续后续的处理
-        return handler.next(response);
-      },
+        onRequest: (options, handler) {
+          // 在请求前添加验证字段
+          options.headers['Authorization'] = 'Bearer $_token';
+          options.headers['clientid'] = _clientid;
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          // 在响应拦截器中处理响应数据
+          if (response.statusCode == 401 || response.data['code'] == 401) {
+            Get.toNamed('/login');
+          }
+          logger.i('Response: $response');
+          // 继续传递响应数据，使其继续后续的处理
+          return handler.next(response);
+        },
+        // onError: (DioException error, ErrorInterceptorHandler handler) {
+      //   logger.e(error);
+      // }
     ));
   }
 
@@ -58,12 +59,14 @@ class StoreController extends GetxController {
   set dio(value) {
     _dio = value;
   }
+
   String get clientid => _clientid;
 
   set clientid(String value) {
     _clientid = value;
     SP.setString('clientid', value);
   }
+
   String get token => _token;
 
   set token(String value) {

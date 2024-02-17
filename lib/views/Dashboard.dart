@@ -9,8 +9,7 @@ import 'package:zib/component/dashbord/MyLineChart.dart';
 import 'package:zib/component/dashbord/MyPieChart.dart';
 import 'package:zib/component/dashbord/PageDetailTable.dart';
 import 'package:zib/component/dashbord/QuickAction.dart';
-import 'package:zib/component/dashbord/TodoList.dart';
-
+import 'package:zib/component/dashbord/todo_list/todo_list_view.dart';
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
@@ -42,7 +41,7 @@ class Left extends StatelessWidget {
             style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.w800),
           ).marginSymmetric(vertical: 20),
           const QuickAction(),
-          const TodoList().marginSymmetric(vertical: 10),
+           TodoList().marginSymmetric(vertical: 10),
           const CollectList().expanded()
         ],
       ),
