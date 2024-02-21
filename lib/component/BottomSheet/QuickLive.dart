@@ -1,15 +1,16 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:zib/api/live.dart';
 import 'package:zib/common/StoreController.dart';
 import 'package:zib/component/BottomSheet/BaseSheet.dart';
+import 'package:zib/component/dashbord/todo_list/todo_list_logic.dart';
 import 'package:zib/main.dart';
-
-import '../dashbord/todo_list/todo_list_logic.dart';
 
 class QuickLiveSheet extends BaseSheet {
   @override
@@ -130,8 +131,42 @@ class QuickLiveForm extends StatelessWidget {
                     var p = {"mainSpeaker": userId, ...?_formKey.currentState?.instantValue};
                     logger.d(p);
                     createLiveRoom(p).then((value) {
+                      if(value['code']==200){
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              var content = '直播地址：rtmp://localhost:1985/myapp?s=${value['data']['id']}\n 推流码：${value['data']['liveToken']}';
+                              return AlertDialog(
+                                title: const Text('开始直播'),
+                                content: Text('$content\n(直播信息可以在直播列表找到)'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('关闭'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // 关闭对话框
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('复制地址'),
+                                    onPressed: () {
+                                      // 复制直播地址到剪贴板
+                                      Clipboard.setData(ClipboardData(text: content));
+                                      // 提示用户已复制
+                                      AnimatedSnackBar.material(
+                                        '直播地址复制成功',
+                                        type: AnimatedSnackBarType.success,
+                                        desktopSnackBarPosition: DesktopSnackBarPosition.topCenter,
+                                      ).show(context);
+                                      Navigator.of(context).pop(); // 关闭对话框
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      }
                       Get.find<TodoListLogic>().reload();
                     });
+                    Navigator.of(context).pop();
                   },
                   child: const Text('创建'))
             ],

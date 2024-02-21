@@ -1,9 +1,10 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/api/live.dart';
-import 'package:zib/main.dart';
 
 import 'todo_list_logic.dart';
 
@@ -90,7 +91,18 @@ class TodoList extends StatelessWidget {
                       children: [
                         IconButton(
                           tooltip: '复制直播链接',
-                          onPressed: () {},
+                          onPressed: () {
+                            var content =
+                                '直播地址：rtmp://localhost:1985/myapp?s=${listData[index]['id']}\n 推流码：${listData[index]['liveToken']}';
+                            // 复制直播地址到剪贴板
+                            Clipboard.setData(ClipboardData(text: content));
+                            // 提示用户已复制
+                            AnimatedSnackBar.material(
+                              '直播地址复制成功',
+                              type: AnimatedSnackBarType.success,
+                              desktopSnackBarPosition: DesktopSnackBarPosition.topCenter,
+                            ).show(context);
+                          },
                           iconSize: 18,
                           constraints: const BoxConstraints(maxWidth: 35),
                           icon: const Icon(
@@ -102,6 +114,7 @@ class TodoList extends StatelessWidget {
                           tooltip: '删除直播',
                           onPressed: () {
                             deleteLiveRoom(listData[index]['id']);
+                            logic.reload();
                           },
                           iconSize: 18,
                           icon: const Icon(Icons.auto_delete_outlined),
