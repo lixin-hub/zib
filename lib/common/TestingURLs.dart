@@ -32,4 +32,4 @@ const MP4_360 =
 const OBS_URL_RTMP = "rtmp://193.112.200.88:1985/myapp/test";
 const OBS_URL_FLV = "http://193.112.200.88:80/live.flv?port=1985&app=myapp&stream=test";
 const SRS = "http://193.112.200.88:8080/live/livestream.flv";
-const FFmpeg = "http://localhost:80/live.flv?port=1985&app=myapp&stream=test";
+const FFmpeg = "http://localhost:80/live.flv?port=1985&app=myapp&stream=1760221328952004609";

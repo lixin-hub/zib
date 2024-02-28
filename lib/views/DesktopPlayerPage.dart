@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -13,19 +14,17 @@ import '../component/media_player_kit/media_player_kit_view.dart';
 import '../component/video_review/video_review_view.dart';
 
 class DesktopPlayerPage extends StatefulWidget {
-  final MediaKitPlayer player;
-
-  const DesktopPlayerPage(this.player, {super.key});
+  const DesktopPlayerPage({super.key});
 
   @override
   State<DesktopPlayerPage> createState() => _DesktopPlayerPageState();
 }
 
 class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
+  final MediaKitPlayer _player = MediaKitPlayer();
   late VideoPlayerController _controller;
-  late MediaKitPlayer _player;
   var dragHover = false;
-  var draging = false;
+  var drag = false;
   bool isVideoReviewOpen = true;
   bool isUserRankOpen = true;
   var _width = 300.0;
@@ -41,7 +40,11 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
   void toolbarCallback(ToolbarCallbackType type) {
     switch (type) {
       case ToolbarCallbackType.BACK:
-        Get.back();
+        _controller.pause();
+        Timer.run(() {
+          //给一点时间让播放器暂停，否则会卡住
+          Get.back();
+        });
         break;
       case ToolbarCallbackType.REVIEW:
         setState(() {
@@ -100,7 +103,7 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
                       color: Color(0xff17171B)),
-                  duration: (draging || dragHover)
+                  duration: (drag || dragHover)
                       ? const Duration(milliseconds: 0)
                       : const Duration(milliseconds: 200),
                   curve: Curves.ease,
@@ -110,10 +113,12 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
                       const VideoReview(),
                       // 拖动条
                       Visibility(
-                        visible: dragHover || draging,
+                        visible: dragHover || drag,
                         child: Container(
                             height: double.infinity,
-                            color: (draging || dragHover) ? ThemeColors.menuTextColor : Colors.transparent,
+                            color: (drag || dragHover)
+                                ? ThemeColors.menuTextColor
+                                : Colors.transparent,
                             child: const Icon(Icons.drag_indicator, size: 12)),
                       ),
                       MouseRegion(
@@ -133,16 +138,16 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
                             child: GestureDetector(
                               onHorizontalDragEnd: (e) {
                                 setState(() {
-                                  draging = false;
+                                  drag = false;
                                 });
                               },
                               onHorizontalDragCancel: () {
                                 setState(() {
-                                  draging = false;
+                                  drag = false;
                                 });
                               },
                               onHorizontalDragUpdate: (details) {
-                                draging = true;
+                                drag = true;
                                 var dx = details.globalPosition.dx;
                                 var width = MediaQuery.of(context).size.width;
                                 var diff = width - dx;
@@ -167,12 +172,13 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
   @override
   void dispose() {
     super.dispose();
+    _controller.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _player = widget.player;
+    _controller = _player.controller;
   }
 }
 

@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
 import 'package:zib/component/player_control_bar/VideoProgressBar.dart';
+import 'package:zib/pages/player_page/player_page_logic.dart';
 
 import 'player_control_bar_logic.dart';
 
 class PlayerControlBar extends StatefulWidget {
-  final MediaPlayerKitLogic controllerLogic;
-
-  const PlayerControlBar(this.controllerLogic, {super.key});
+  const PlayerControlBar({super.key});
 
   @override
   State<PlayerControlBar> createState() => _PlayerControlBarState();
@@ -18,7 +16,7 @@ class PlayerControlBar extends StatefulWidget {
 
 class _PlayerControlBarState extends State<PlayerControlBar> {
   final logic = Get.put(PlayerControlBarLogic());
-  late MediaPlayerKitLogic _controllerLogic;
+  final PlayerPageLogic _controllerLogic = Get.find<PlayerPageLogic>();
   late final VideoPlayerController _controller;
   late bool isFullscreen;
   double speed = 1;
@@ -52,7 +50,6 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
   @override
   void initState() {
     super.initState();
-    _controllerLogic = Get.put(MediaPlayerKitLogic());
     isFullscreen = Get.currentRoute.endsWith('/full_screen_player');
     _controller = _controllerLogic.controller;
     _controller.addListener(playRateAdjust);

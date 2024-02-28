@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
 import 'package:zib/component/player_control_bar/player_control_bar_view.dart';
+import 'package:zib/pages/player_page/player_page_logic.dart';
 
 class ControlsOverlay extends StatefulWidget {
-  const ControlsOverlay(this.controllerLogic, {super.key});
+  const ControlsOverlay({super.key});
 
   // static const List<double> _examplePlaybackRates = <double>[
   //   0.25,
@@ -20,14 +20,12 @@ class ControlsOverlay extends StatefulWidget {
   //   10.0,
   // ];
 
-  final MediaPlayerKitLogic controllerLogic;
-
   @override
   State<ControlsOverlay> createState() => _ControlsOverlayState();
 }
 
 class _ControlsOverlayState extends State<ControlsOverlay> {
-  late final MediaPlayerKitLogic _controllerLogic;
+  final PlayerPageLogic _controllerLogic = Get.find<PlayerPageLogic>();
   late final VideoPlayerController _controller;
   bool isHover = false;
   Timer? timer;
@@ -35,7 +33,6 @@ class _ControlsOverlayState extends State<ControlsOverlay> {
   @override
   void initState() {
     super.initState();
-    _controllerLogic = widget.controllerLogic;
     _controller = _controllerLogic.controller;
   }
 
@@ -156,7 +153,7 @@ class _ControlsOverlayState extends State<ControlsOverlay> {
                 child: SizedBox(
                   height: 50,
                   width: cons.maxWidth,
-                  child: PlayerControlBar(_controllerLogic),
+                  child: const PlayerControlBar(),
                 )),
             MouseRegion(
                 opaque: false,

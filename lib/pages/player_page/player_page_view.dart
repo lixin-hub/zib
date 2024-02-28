@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zib/component/media_player_kit/media_player_kit_view.dart';
 import 'package:zib/pages/player_page/player_page_logic.dart';
+import 'package:zib/views/DesktopPlayerPage.dart';
+import 'package:zib/views/MobilePlayerPage.dart';
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({super.key});
@@ -30,7 +33,7 @@ class _PlayerPageState extends State<PlayerPage> {
           padding: EdgeInsets.all(padding),
           child: Stack(
             children: [
-              (width < 700) ? logic.mobilePlayerPage : logic.desktopPlayerPage,
+              (width < 700) ? const MobilePlayerPage() : const DesktopPlayerPage(),
             ],
           ),
         ),

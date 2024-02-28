@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
 import 'package:zib/component/NeuButton.dart';
+import 'package:zib/component/video_review/video_review_logic.dart';
+import 'package:zib/main.dart';
 
 class CommentInputRegin extends StatefulWidget {
   const CommentInputRegin({super.key});
@@ -14,6 +16,23 @@ class CommentInputRegin extends StatefulWidget {
 
 class _CommentInputReginState extends State<CommentInputRegin> {
   TextEditingController textEditingController = TextEditingController();
+  final reviewLogic = Get.find<VideoReviewLogic>();
+
+  @override
+  void initState() {
+    super.initState();
+    // textEditingController.addListener(() {
+    //   // var value=textEditingController.value.text;
+    //   // logger.i(value);
+    // });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    textEditingController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +123,11 @@ class _CommentInputReginState extends State<CommentInputRegin> {
                   //     borderRadius: BorderRadius.circular(5.0), // 设置圆角半径
                   //   )),
                   // ),
-                  onTap: () {},
+                  onTap: () {
+                    var value = textEditingController.value.text;
+                    reviewLogic.pushComment('1760221328952004609',value);
+                    logger.i('评论：$value');
+                  },
                   child: const Text(
                     "发送",
                     style: TextStyle(

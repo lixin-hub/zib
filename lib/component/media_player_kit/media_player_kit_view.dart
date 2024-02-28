@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
+import 'package:zib/pages/player_page/player_page_logic.dart';
 
 import '../ControlsOverlay.dart';
 import '../VideoInfo.dart';
 
 class MediaKitPlayer extends StatelessWidget {
-  final MediaPlayerKitLogic logic = Get.put(MediaPlayerKitLogic());
+  final PlayerPageLogic logic = Get.put(PlayerPageLogic());
   late final VideoPlayerController controller;
 
   MediaKitPlayer({super.key}) {
@@ -40,7 +41,7 @@ class MediaKitPlayer extends StatelessWidget {
                     child: VideoPlayer(controller)),
               ),
 //覆盖层
-              ControlsOverlay(logic),
+              const ControlsOverlay(),
 //控制栏
 //控制器信息
               if (showInfo) VideoInfo(controller).marginSymmetric(vertical: 40, horizontal: 20),

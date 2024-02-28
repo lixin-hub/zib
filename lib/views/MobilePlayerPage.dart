@@ -4,21 +4,20 @@ import '../component/media_player_kit/media_player_kit_view.dart';
 import '../component/video_review/video_review_view.dart';
 
 class MobilePlayerPage extends StatefulWidget {
-  final MediaKitPlayer player;
 
-  const MobilePlayerPage(this.player, {super.key});
+  const MobilePlayerPage( {super.key});
 
   @override
   State<MobilePlayerPage> createState() => _MobilePlayerPageState();
 }
 
 class _MobilePlayerPageState extends State<MobilePlayerPage> {
-  late MediaKitPlayer _player;
+  late final MediaKitPlayer _player = MediaKitPlayer();
 
   @override
   void initState() {
     super.initState();
-    _player = widget.player;
+
   }
 
   @override

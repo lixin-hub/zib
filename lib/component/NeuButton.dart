@@ -62,7 +62,7 @@ class _NeuButtonState extends State<NeuButton> {
     if (widget.color != null) {
       color = widget.color;
     }
-    print("$c");
+    // print("NeuColor:$c");
     return Container(
       margin: widget.margin,
       child: AnimatedNeumorphicContainer(
