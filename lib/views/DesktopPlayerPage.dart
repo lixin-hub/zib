@@ -41,8 +41,8 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
     switch (type) {
       case ToolbarCallbackType.BACK:
         _controller.pause();
-        Timer.run(() {
-          //给一点时间让播放器暂停，否则会卡住
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          //下一帧退回
           Get.back();
         });
         break;
@@ -172,7 +172,6 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
   }
 
   @override

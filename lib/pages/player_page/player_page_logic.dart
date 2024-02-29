@@ -6,6 +6,8 @@ class PlayerPageLogic extends GetxController {
   late VideoPlayerController controller;
   late var isPlaying = false.obs;
 
+  var liveRoomId = '1760221328952004609';
+
   @override
   void onInit() {
     super.onInit();
@@ -24,5 +26,6 @@ class PlayerPageLogic extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    controller.dispose();
   }
 }

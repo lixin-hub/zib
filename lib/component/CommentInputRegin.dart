@@ -6,6 +6,7 @@ import 'package:zib/common/ThemeColors.dart';
 import 'package:zib/component/NeuButton.dart';
 import 'package:zib/component/video_review/video_review_logic.dart';
 import 'package:zib/main.dart';
+import 'package:zib/pages/player_page/player_page_logic.dart';
 
 class CommentInputRegin extends StatefulWidget {
   const CommentInputRegin({super.key});
@@ -17,10 +18,12 @@ class CommentInputRegin extends StatefulWidget {
 class _CommentInputReginState extends State<CommentInputRegin> {
   TextEditingController textEditingController = TextEditingController();
   final reviewLogic = Get.find<VideoReviewLogic>();
-
+  final playerPageLogic = Get.find<PlayerPageLogic>();
+  late final String liveRoomId;
   @override
   void initState() {
     super.initState();
+    liveRoomId=playerPageLogic.liveRoomId;
     // textEditingController.addListener(() {
     //   // var value=textEditingController.value.text;
     //   // logger.i(value);
@@ -74,9 +77,11 @@ class _CommentInputReginState extends State<CommentInputRegin> {
                 children: [
                   NeuButton(
                       color: ThemeColors.backgroundColor,
-                      onTap: () {},
+                      onTap: () {
+                        reviewLogic.refreshComments();
+                      },
                       child: const Icon(
-                        Icons.mail,
+                        Icons.refresh,
                         color: ThemeColors.menuTextColor,
                       )),
                 ],
@@ -125,7 +130,7 @@ class _CommentInputReginState extends State<CommentInputRegin> {
                   // ),
                   onTap: () {
                     var value = textEditingController.value.text;
-                    reviewLogic.pushComment('1760221328952004609',value);
+                    reviewLogic.pushComment(liveRoomId,value);
                     logger.i('评论：$value');
                   },
                   child: const Text(

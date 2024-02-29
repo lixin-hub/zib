@@ -43,7 +43,8 @@ class _VideoReviewState extends State<VideoReview> {
               itemCount: logic.list.length,
               controller: logic.scrollController,
               itemBuilder: (context, index) {
-                return CommentItem("大红红的美食", logic.list[index])
+                var row = logic.list[index];
+                return CommentItem("大红红的美食", row['content'])
                     .marginOnly(top: 10, bottom: 10, left: 10);
               },
             );

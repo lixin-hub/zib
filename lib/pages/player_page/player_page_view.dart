@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zib/component/media_player_kit/media_player_kit_view.dart';
 import 'package:zib/pages/player_page/player_page_logic.dart';
 import 'package:zib/views/DesktopPlayerPage.dart';
 import 'package:zib/views/MobilePlayerPage.dart';
@@ -14,6 +13,8 @@ class PlayerPage extends StatefulWidget {
 
 class _PlayerPageState extends State<PlayerPage> {
   final logic = Get.put(PlayerPageLogic());
+  final mobilePlayer = const MobilePlayerPage();
+  final desktopPlayer = const DesktopPlayerPage();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class _PlayerPageState extends State<PlayerPage> {
           padding: EdgeInsets.all(padding),
           child: Stack(
             children: [
-              (width < 700) ? const MobilePlayerPage() : const DesktopPlayerPage(),
+              (width < 700) ? mobilePlayer : desktopPlayer,
             ],
           ),
         ),
