@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,9 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zib/common/ThemeColors.dart';
 import 'package:zib/common/Types.dart';
+import 'package:zib/component/MiniCommentRegion.dart';
 import 'package:zib/component/Toolbar.dart';
+import 'package:zib/main.dart';
 
 import '../component/UserRank.dart';
 import '../component/media_player_kit/media_player_kit_view.dart';
@@ -181,8 +182,29 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
   }
 }
 
-class Info extends StatelessWidget {
+class Info extends StatefulWidget {
   const Info({super.key});
+
+  @override
+  State<Info> createState() => _InfoState();
+}
+
+class _InfoState extends State<Info> {
+  var _showCommentRegion = false;
+
+  @override
+  void initState() {
+    super.initState();
+    eventBus.on().listen((event) {
+      if (event == Events.REVIEW_CLOSE) {
+        _showCommentRegion = true;
+      }
+      if (event == Events.REVIEW_OPPEN) {
+        _showCommentRegion = false;
+      }
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +214,7 @@ class Info extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 100,
+      height: 70,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -249,6 +271,17 @@ class Info extends StatelessWidget {
               ),
             ],
           ),
+          //评论区
+          Container(
+            alignment: Alignment.center,
+              child: AnimatedContainer(
+                constraints: BoxConstraints(maxWidth: _showCommentRegion ? 400 : 100),
+                duration: const Duration(milliseconds: 200),
+                child: Offstage(
+                    offstage: !_showCommentRegion,
+                    child: const MiniCommentRegin()),
+            ),
+          ).expanded(),
           //播放信息
           Column(
             mainAxisAlignment: MainAxisAlignment.center,

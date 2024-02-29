@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zib/common/ThemeColors.dart';
 import 'package:zib/common/Types.dart';
 import 'package:zib/component/NeuButton.dart';
+import 'package:zib/main.dart';
 
 class Toolbar extends StatefulWidget {
   final ToolbarCallback callback;
@@ -61,6 +62,7 @@ class ToolbarState extends State<Toolbar> {
                       isVideoReviewOpen = !isVideoReviewOpen;
                     });
                     widget.callback.call(ToolbarCallbackType.REVIEW);
+                    eventBus.fire(isVideoReviewOpen ? Events.REVIEW_OPPEN : Events.REVIEW_CLOSE);
                   },
                   child: AnimatedRotation(
                     turns: isVideoReviewOpen ? 0 : 0.5,

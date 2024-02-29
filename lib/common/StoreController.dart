@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:zib/common/Sp.dart';
 import 'package:zib/main.dart';
-
+//保存一些用户信息，网络请求
 class StoreController extends GetxController {
   String _token = '';
   String _clientid = '';

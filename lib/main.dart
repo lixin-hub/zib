@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,8 @@ var logger = Logger(
       printTime: false // Should each log print contain a timestamp
       ),
 );
-
+//事件总线
+var eventBus=EventBus();
 StoreController store = Get.put(StoreController());
 
 class MyWindowListener extends WindowListener {
