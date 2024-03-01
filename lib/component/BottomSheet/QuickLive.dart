@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:zib/api/live.dart';
 import 'package:zib/common/StoreController.dart';
 import 'package:zib/component/BottomSheet/BaseSheet.dart';
-import 'package:zib/component/dashbord/todo_list/todo_list_logic.dart';
+import 'package:zib/component/todo_list/todo_list_logic.dart';
 import 'package:zib/main.dart';
 
 class QuickLiveSheet extends BaseSheet {
@@ -36,6 +36,7 @@ class QuickLiveForm extends StatelessWidget {
           key: _formKey,
           initialValue: {
             'title': '直播标题-${DateFormat(DateFormats.zh_mo_d_h_m).format(DateTime.now())}',
+            'introduction': '直播描述，直播描述，直播描述，直播描述，直播描述，直播描述，直播描述，直播描述，直播描述，直播描述',
             'startTime': DateTime.now(),
             'endTime': DateTime.now().add(const Duration(hours: 1)),
             'permission': '1', //谁可以观看该直播 1好友 2除开好友  3指定人员(将查询指定记录表) 4 任何人
@@ -49,6 +50,12 @@ class QuickLiveForm extends StatelessWidget {
                 decoration: const InputDecoration(
                     labelText: '标题', helperText: '标题用于展示和搜索', hintText: '输入直播标题'),
                 name: 'title',
+              ),
+              FormBuilderTextField(
+                // key: _emailFieldKey,
+                decoration: const InputDecoration(
+                    labelText: '简介', helperText: '描述直播主题', hintText: '输入直播简介'),
+                name: 'introduction',
               ),
               FormBuilderDateTimePicker(
                 name: 'startTime',
@@ -131,11 +138,12 @@ class QuickLiveForm extends StatelessWidget {
                     var p = {"mainSpeaker": userId, ...?_formKey.currentState?.instantValue};
                     logger.d(p);
                     createLiveRoom(p).then((value) {
-                      if(value['code']==200){
+                      if (value['code'] == 200) {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              var content = '直播地址：rtmp://localhost:1985/myapp?s=${value['data']['id']}\n 推流码：${value['data']['liveToken']}';
+                              var content =
+                                  'rtmp://localhost:1985/myapp/${value['data']['id']}?s=${value['data']['liveToken']}';
                               return AlertDialog(
                                 title: const Text('开始直播'),
                                 content: Text('$content\n(直播信息可以在直播列表找到)'),

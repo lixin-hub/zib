@@ -18,8 +18,15 @@ loginApi(username, password) async {
   return response.data['data'];
 }
 
-//获取用户信息
+//获取登录用户信息
 userInfoApi() async {
   final response = await dio.get("system/user/getInfo");
+  return response.data['data'];
+}
+
+
+//获取用户信息
+userInfoById(id) async {
+  final response = await dio.get("system/user/${id}");
   return response.data['data'];
 }

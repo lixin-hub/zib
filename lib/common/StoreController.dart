@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:zib/common/Sp.dart';
 import 'package:zib/main.dart';
+
 //保存一些用户信息，网络请求
 class StoreController extends GetxController {
   String _token = '';
@@ -19,22 +20,22 @@ class StoreController extends GetxController {
       baseUrl: path,
     ));
     _dio.interceptors.add(InterceptorsWrapper(
-        onRequest: (options, handler) {
-          // 在请求前添加验证字段
-          options.headers['Authorization'] = 'Bearer $_token';
-          options.headers['clientid'] = _clientid;
-          return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          // 在响应拦截器中处理响应数据
-          if (response.statusCode == 401 || response.data['code'] == 401) {
-            Get.toNamed('/login');
-          }
-          logger.i('Response: $response');
-          // 继续传递响应数据，使其继续后续的处理
-          return handler.next(response);
-        },
-        // onError: (DioException error, ErrorInterceptorHandler handler) {
+      onRequest: (options, handler) {
+        // 在请求前添加验证字段
+        options.headers['Authorization'] = 'Bearer $_token';
+        options.headers['clientid'] = _clientid;
+        return handler.next(options);
+      },
+      onResponse: (response, handler) {
+        // 在响应拦截器中处理响应数据
+        if (response.statusCode == 401 || response.data['code'] == 401) {
+          Get.toNamed('/login');
+        }
+        logger.i('Response: ${response}');
+        // 继续传递响应数据，使其继续后续的处理
+        return handler.next(response);
+      },
+      // onError: (DioException error, ErrorInterceptorHandler handler) {
       //   logger.e(error);
       // }
     ));

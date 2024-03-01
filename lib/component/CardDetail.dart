@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:zib/api/user.dart';
 
 import '../common/ThemeColors.dart';
 
-class CardDetail extends StatelessWidget {
-  const CardDetail({super.key});
+class CardDetail extends StatefulWidget {
+  final Map<String, dynamic> item;
+
+  const CardDetail(this.item, {super.key});
+
+  @override
+  State<CardDetail> createState() => _CardDetailState();
+}
+
+class _CardDetailState extends State<CardDetail> {
+  late var item;
+  var mainSpeaker = {};
+
+  @override
+  void initState() {
+    super.initState();
+    item = widget.item;
+    if (item['mainSpeaker'] == null) {
+      return;
+    }
+    userInfoById(item['mainSpeaker']).then((res) {
+      if (res['user'] != null) {
+        setState(() {
+          mainSpeaker = res['user'];
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +65,7 @@ class CardDetail extends StatelessWidget {
                         iconSize: 30,
                         icon: const Icon(Icons.play_arrow),
                         onPressed: () {
-                          Get.toNamed("player");
+                          Get.toNamed("player",arguments: item['id']);
                         },
                       ),
                     ),
@@ -69,7 +96,7 @@ class CardDetail extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "线性代数宋浩",
+                            mainSpeaker['nickName'] ?? '',
                             style: TextStyle(
                                 fontSize: 18,
                                 color: ThemeColors.primaryTextColor,
@@ -84,7 +111,7 @@ class CardDetail extends StatelessWidget {
                       ).marginOnly(bottom: 6),
                       //详情
                       Text(
-                        "BBC记者深入报导日本地震灾区",
+                        item['titles'] ?? '',
                         maxLines: 1,
                         style: TextStyle(
                             color: ThemeColors.primaryTextColor,
@@ -92,7 +119,7 @@ class CardDetail extends StatelessWidget {
                             overflow: TextOverflow.ellipsis),
                       ).marginOnly(bottom: 5),
                       Text(
-                        '''执行完成后就会在当前目录生成 flutter_build_demo_1.0.0.deb的文件，后面就可以使用 dpkg -i 命令对这个 deb 包进行安装后续如果应用更新的话只需要将编译生成的文件拷贝到这个打包目录的 opt/flutter_build_demo 目录下修改版本信息再重新打包即可，如果嫌每次都要手动拷贝麻烦也可以写个脚本来处理，比如 package.sh如下''',
+                        item['introduction'] ?? '',
                         style: TextStyle(color: ThemeColors.secondaryTextColor, fontSize: 10),
                       ),
                     ],

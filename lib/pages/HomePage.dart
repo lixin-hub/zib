@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         store.token = token;
         var value = await userInfoApi();
         if (value != null) {
-          Get.toNamed('/player');
+          // Get.toNamed('/player');
         }
       } else {
         Get.toNamed('/login');

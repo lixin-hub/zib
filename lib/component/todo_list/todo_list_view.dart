@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/api/live.dart';
+import 'package:zib/component/RefreshButton.dart';
 
 import 'todo_list_logic.dart';
 
@@ -16,7 +17,6 @@ class TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var listData = logic.listData;
-    var rotate = logic.rotate;
     return Obx(() {
       return Container(
         constraints: const BoxConstraints(maxHeight: 300),
@@ -37,23 +37,11 @@ class TodoList extends StatelessWidget {
                   "Todo List",
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: Colors.black),
                 ),
-                AnimatedRotation(
-                  turns: rotate.value,
-                  onEnd: () {
-                    rotate.value = 0;
+                RefreshButton(
+                  () {
+                    logic.reload();
                   },
-                  duration: const Duration(milliseconds: 300),
-                  child: IconButton(
-                    tooltip: '刷新',
-                    onPressed: () {
-                      rotate.value += 1;
-                      logic.reload();
-                    },
-                    icon: const Icon(
-                      Icons.refresh,
-                      color: Colors.black,
-                    ),
-                  ),
+                  color: Colors.black54,
                 )
               ],
             ).expanded(flex: 0),
@@ -93,7 +81,9 @@ class TodoList extends StatelessWidget {
                           tooltip: '复制直播链接',
                           onPressed: () {
                             var content =
-                                '直播地址：rtmp://localhost:1985/myapp?s=${listData[index]['id']}\n 推流码：${listData[index]['liveToken']}';
+                                '直播地址：rtmp://localhost:1985/myapp?s=${listData[index]['id']}'
+                                '\n 推流地址: rtmp://localhost:1985/myapp/${listData[index]['id']}?s=${listData[index]['liveToken']}'
+                                '\n 推流码：${listData[index]['liveToken']}';
                             // 复制直播地址到剪贴板
                             Clipboard.setData(ClipboardData(text: content));
                             // 提示用户已复制
@@ -111,7 +101,7 @@ class TodoList extends StatelessWidget {
                         ),
                         IconButton(
                           constraints: const BoxConstraints(maxWidth: 35),
-                          tooltip: '删除直播',
+                          tooltip: '取消直播',
                           onPressed: () {
                             deleteLiveRoom(listData[index]['id']);
                             logic.reload();

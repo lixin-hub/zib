@@ -5,7 +5,7 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/component/NeuButton.dart';
 import 'package:zib/component/Side.dart';
 import 'package:zib/main.dart';
-import 'package:zib/views/Dashboard.dart';
+import 'package:zib/pages/dashbord/Dashboard.dart';
 
 import '../../common/ThemeColors.dart';
 import 'live_management_logic.dart';

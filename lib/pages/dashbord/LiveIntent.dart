@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:zib/component/dashbord/MyLineChart.dart';
+
+import 'MyLineChart.dart';
 
 class LiveIntent extends StatelessWidget {
   const LiveIntent({super.key});

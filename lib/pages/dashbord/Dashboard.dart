@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:zib/common/ThemeColors.dart';
-import 'package:zib/component/dashbord/CollectList.dart';
-import 'package:zib/component/dashbord/LiveIntent.dart';
-import 'package:zib/component/dashbord/MyBarChart.dart';
-import 'package:zib/component/dashbord/MyLineChart.dart';
-import 'package:zib/component/dashbord/MyPieChart.dart';
-import 'package:zib/component/dashbord/PageDetailTable.dart';
-import 'package:zib/component/dashbord/QuickAction.dart';
-import 'package:zib/component/dashbord/todo_list/todo_list_view.dart';
+import 'package:zib/component/todo_list/todo_list_view.dart';
+
+import 'CollectList.dart';
+import 'LiveIntent.dart';
+import 'MyBarChart.dart';
+import 'MyLineChart.dart';
+import 'MyPieChart.dart';
+import 'PageDetailTable.dart';
+import 'QuickAction.dart';
+
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
@@ -41,7 +43,7 @@ class Left extends StatelessWidget {
             style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.w800),
           ).marginSymmetric(vertical: 20),
           const QuickAction(),
-           TodoList().marginSymmetric(vertical: 10),
+          TodoList().marginSymmetric(vertical: 10),
           const CollectList().expanded()
         ],
       ),
@@ -80,7 +82,10 @@ class Right extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 children: [
                   const LiveIntent().marginSymmetric(vertical: 10),
-                  const MyPieChart(), MyBarChart().constrained(maxWidth: vw), const MyPieChart()],
+                  const MyPieChart(),
+                  MyBarChart().constrained(maxWidth: vw),
+                  const MyPieChart()
+                ],
               ),
             ).expanded()
           ],
@@ -149,13 +154,12 @@ class LiveList extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: ThemeColors.primaryColor, borderRadius: BorderRadius.circular(10)),
-              child: const PagedDataTable(),
-            ),
-          )
+              child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: ThemeColors.primaryColor, borderRadius: BorderRadius.circular(10)),
+            child: const PagedDataTable(),
+          ))
         ],
       ),
     );

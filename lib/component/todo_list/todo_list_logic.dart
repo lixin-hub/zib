@@ -3,7 +3,6 @@ import 'package:zib/api/live.dart';
 
 class TodoListLogic extends GetxController {
   var listData = [].obs;
-  var rotate = 0.0.obs;
 
   @override
   onInit() {

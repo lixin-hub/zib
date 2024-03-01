@@ -9,13 +9,16 @@ import 'package:zib/common/ThemeColors.dart';
 import 'package:zib/component/CardDetail.dart';
 
 class CardItem extends StatefulWidget {
-  const CardItem({super.key});
+  final Map<String, dynamic> item;
+
+  const CardItem(this.item, {super.key});
 
   @override
   State<CardItem> createState() => _CardItemState();
 }
 
 class _CardItemState extends State<CardItem> {
+  late var item;
   var _isHover = false;
   Timer? _timer;
   bool isUp = true;
@@ -24,10 +27,15 @@ class _CardItemState extends State<CardItem> {
   Offset getWidgetPosition() {
     // 获取目标组件的 RenderBox
     RenderBox targetRenderBox = targetKey.currentContext!.findRenderObject() as RenderBox;
-
     // 将局部坐标转换为全局坐标
     Offset targetGlobalPosition = targetRenderBox.localToGlobal(Offset.zero);
     return targetGlobalPosition;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    item = widget.item;
   }
 
   @override
@@ -48,7 +56,7 @@ class _CardItemState extends State<CardItem> {
               ).aspectRatio(aspectRatio: 10 / 9),
             ),
             Text(
-              "BBC记者深入报导日本地震灾区",
+              item['title'] ?? '',
               maxLines: 1,
               style: TextStyle(
                   color: ThemeColors.primaryTextColor,
@@ -56,7 +64,7 @@ class _CardItemState extends State<CardItem> {
                   overflow: TextOverflow.ellipsis),
             ),
             Text(
-              "这场7.6级的地震，造成至少48人死亡。日本首相表示，政府目前正在与时间赛跑，救援幸存者。",
+              item['introduction'] ?? '',
               maxLines: 1,
               style: TextStyle(
                   color: ThemeColors.secondaryTextColor,
@@ -70,7 +78,7 @@ class _CardItemState extends State<CardItem> {
         child: InkWell(
             onTapDown: (detail) {
               showContextMenu(detail.globalPosition, context, (context) {
-                return [const CardDetail()];
+                return [CardDetail(item)];
               }, 0.0, 300.0);
             },
             onHover: (e) {
@@ -85,7 +93,7 @@ class _CardItemState extends State<CardItem> {
                 _timer = null;
                 Offset offset = getWidgetPosition();
                 showContextMenu(Offset(max(offset.dx, 0), offset.dy), context, (context) {
-                  return [const CardDetail()];
+                  return [CardDetail(item)];
                 }, 0.0, 300.0);
               });
             },
@@ -102,7 +110,7 @@ class _CardItemState extends State<CardItem> {
         right: 4,
         child: ElevatedButton.icon(
             onPressed: () {
-              Get.toNamed('/player', arguments: ('1', '2'));
+              Get.toNamed("player", arguments: item['id']);
             },
             icon: const Icon(Icons.play_arrow),
             label: const Text("播放")),

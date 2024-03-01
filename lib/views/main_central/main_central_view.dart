@@ -22,9 +22,9 @@ class MainCentral extends StatelessWidget {
         ListView(
           scrollDirection: Axis.vertical,
           children: [
-            const CategoryRegin().marginSymmetric(horizontal: 12),
-            const CategoryRegin().marginSymmetric(horizontal: 12),
-            const CategoryRegin().marginSymmetric(horizontal: 12),
+            const CategoryRegin("直播推荐", {'status': 'living'}).marginSymmetric(horizontal: 12),
+            const CategoryRegin("精彩预约", {'status': 'not_start'}).marginSymmetric(horizontal: 12),
+            const CategoryRegin("回味时刻", {'status': 'end'}).marginSymmetric(horizontal: 12),
           ],
         ).expanded()
       ]),
