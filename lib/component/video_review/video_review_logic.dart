@@ -44,7 +44,7 @@ class VideoReviewLogic extends GetxController {
       'pageNum': 1,
       'liveRoomId': playerPageLogic.liveRoomId
     }).then((res) {
-      logger.e(res);
+      // logger.e(res);
       List<Map<String, dynamic>> rows = List<Map<String, dynamic>>.from(res['rows']);
       if (rows.isEmpty) {
         return;

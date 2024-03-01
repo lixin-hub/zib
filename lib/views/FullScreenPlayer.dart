@@ -25,15 +25,18 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
-        focusNode: focusNode,
-        autofocus: true,
-        onKey: (RawKeyEvent event) {
-          // 判断是否按下Esc键
-          if (event is RawKeyDownEvent && event.logicalKey == LogicalKeyboardKey.escape) {
-            windowManager.setFullScreen(false);
-          }
-        },
-        child: Container(color: Colors.white, child: MediaKitPlayer()));
+    return Material(
+        child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: RawKeyboardListener(
+                focusNode: focusNode,
+                autofocus: true,
+                onKey: (RawKeyEvent event) {
+                  // 判断是否按下Esc键
+                  if (event is RawKeyDownEvent && event.logicalKey == LogicalKeyboardKey.escape) {
+                    windowManager.setFullScreen(false);
+                  }
+                },
+                child: Container(color: Colors.white, child: MediaKitPlayer()))));
   }
 }

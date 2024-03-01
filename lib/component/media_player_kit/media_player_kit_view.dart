@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:zib/component/media_player_kit/media_player_kit_logic.dart';
+import 'package:zib/component/danmaku/danmaku_view.dart';
 import 'package:zib/pages/player_page/player_page_logic.dart';
 
 import '../ControlsOverlay.dart';
@@ -16,13 +16,12 @@ class MediaKitPlayer extends StatelessWidget {
   }
 
   final bool showInfo = false;
-  late final  playerValue = const VideoPlayerValue(duration: Duration(milliseconds: 0)).obs;
+  late final playerValue = const VideoPlayerValue(duration: Duration(milliseconds: 0)).obs;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return SizedBox(
-      width: double.infinity,
       child: AspectRatio(
         aspectRatio: controller.value.aspectRatio,
         child: Hero(
@@ -40,6 +39,10 @@ class MediaKitPlayer extends StatelessWidget {
                     duration: const Duration(milliseconds: 1000),
                     child: VideoPlayer(controller)),
               ),
+              Positioned(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: DanmakuWall()),
 //覆盖层
               const ControlsOverlay(),
 //控制栏

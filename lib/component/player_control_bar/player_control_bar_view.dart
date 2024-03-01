@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:window_manager/window_manager.dart';
 import 'package:zib/component/player_control_bar/VideoProgressBar.dart';
 import 'package:zib/pages/player_page/player_page_logic.dart';
 
@@ -110,9 +109,9 @@ class _PlayerControlBarState extends State<PlayerControlBar> {
                               onPressed: () {
                             if (isFullscreen) {
                               Get.back();
-                              windowManager.setFullScreen(false);
+                              // windowManager.setFullScreen(false);
                             } else {
-                              windowManager.setFullScreen(true);
+                              // windowManager.setFullScreen(true);
                               Get.toNamed('/full_screen_player', arguments: _controller);
                             }
                           }),
