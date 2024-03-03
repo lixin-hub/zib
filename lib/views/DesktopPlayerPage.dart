@@ -9,6 +9,7 @@ import 'package:zib/common/Types.dart';
 import 'package:zib/component/MiniCommentRegion.dart';
 import 'package:zib/component/Toolbar.dart';
 import 'package:zib/main.dart';
+import 'package:zib/pages/player_page/player_page_logic.dart';
 
 import '../component/UserRank.dart';
 import '../component/media_player_kit/media_player_kit_view.dart';
@@ -22,6 +23,7 @@ class DesktopPlayerPage extends StatefulWidget {
 }
 
 class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
+  var playerLogic = Get.find<PlayerPageLogic>();
   final MediaKitPlayer _player = MediaKitPlayer();
   late VideoPlayerController _controller;
   var dragHover = false;
@@ -191,6 +193,7 @@ class Info extends StatefulWidget {
 
 class _InfoState extends State<Info> {
   var _showCommentRegion = false;
+  var playerLogic = Get.find<PlayerPageLogic>();
 
   @override
   void initState() {
@@ -215,112 +218,119 @@ class _InfoState extends State<Info> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       height: 70,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          //头像
-          Row(
-            children: [
-              Stack(
-                alignment: Alignment.center,
+      child: Obx(() {
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //头像
+            Expanded(
+              flex: 1,
+              child: Row(
                 children: [
-                  const Positioned(
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.red,
-                      backgroundImage: AssetImage("images/banner.png"),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Positioned(
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.red,
+                          backgroundImage: AssetImage("images/banner.png"),
+                        ),
+                      ),
+                      Positioned(
+                          bottom: 10,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 2,
+                                ),
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Text(
+                              "LIVE",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
+                  //基本信息
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(playerLogic.mainSpeakerInfo['nickName'] ?? '', style: l1)
+                            .padding(bottom: 5),
+                        Text(playerLogic.liveRoomInfo['title'] ?? '', style: l2),
+                        Text(
+                          playerLogic.liveRoomInfo['introduction'] ?? '',
+                          style: l3,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                      bottom: 10,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 2,
-                            ),
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: const Text(
-                          "LIVE",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ))
                 ],
               ),
-              //基本信息
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("神奇的宇宙", style: l1).padding(bottom: 5),
-                  Text("第一集：宇宙的诞生", style: l2),
-                  Text(
-                    "宇宙的起源一直就是人类一直最寻的谜团...",
-                    style: l3,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          //评论区
-          Container(
-            alignment: Alignment.center,
+            ),
+            //评论区
+            Container(
+              alignment: Alignment.center,
               child: AnimatedContainer(
                 constraints: BoxConstraints(maxWidth: _showCommentRegion ? 400 : 100),
                 duration: const Duration(milliseconds: 200),
-                child: Offstage(
-                    offstage: !_showCommentRegion,
-                    child: const MiniCommentRegin()),
+                child: Offstage(offstage: !_showCommentRegion, child: const MiniCommentRegin()),
+              ),
             ),
-          ).expanded(),
-          //播放信息
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton.icon(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all(null),
-                      padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 5)),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ))),
-                  icon: const Icon(Icons.add_box),
-                  label: const Text("Fellow")),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  const Icon(
-                    Icons.person,
-                    color: Colors.orange,
-                    size: 16,
-                  ),
-                  const Text(
-                    "1024",
-                    style: TextStyle(color: Colors.orange, fontSize: 13),
-                  ),
-                  Text("12:30", style: l2).padding(left: 5),
-                  const Icon(
-                    Icons.more_vert,
-                    color: Colors.white,
-                    size: 15,
-                  )
-                ],
-              ).padding(top: 10)
-            ],
-          )
-        ],
-      ),
+            //播放信息
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.all(null),
+                        padding:
+                            MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 5)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ))),
+                    icon: const Icon(Icons.add_box),
+                    label: const Text("Fellow")),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    const Icon(
+                      Icons.person,
+                      color: Colors.orange,
+                      size: 16,
+                    ),
+                    Text(
+                      playerLogic.liveRoomInfo['onlineNumber']?.toString() ?? '',
+                      style: const TextStyle(color: Colors.orange, fontSize: 13),
+                    ),
+                    Text("12:30", style: l2).padding(left: 5),
+                    const Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                      size: 15,
+                    )
+                  ],
+                ).padding(top: 10)
+              ],
+            )
+          ],
+        );
+      }),
     );
   }
 }

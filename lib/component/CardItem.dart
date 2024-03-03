@@ -110,7 +110,7 @@ class _CardItemState extends State<CardItem> {
         right: 4,
         child: ElevatedButton.icon(
             onPressed: () {
-              Get.toNamed("player", arguments: item['id']);
+              Get.toNamed("player", arguments: item);
             },
             icon: const Icon(Icons.play_arrow),
             label: const Text("播放")),

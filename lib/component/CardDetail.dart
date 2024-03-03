@@ -65,7 +65,7 @@ class _CardDetailState extends State<CardDetail> {
                         iconSize: 30,
                         icon: const Icon(Icons.play_arrow),
                         onPressed: () {
-                          Get.toNamed("player",arguments: item['id']);
+                          Get.toNamed("player",arguments: item);
                         },
                       ),
                     ),
