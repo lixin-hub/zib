@@ -32,3 +32,10 @@ liveRoomInfo(id) async {
   final response = await dio.get("live/room/$id");
   return response.data;
 }
+
+//真正观看直播用户列表
+userRankList(Map<String, dynamic>? params) async {
+  final response = await dio.get("live/room/ranks", queryParameters: params);
+  return response.data;
+}
+

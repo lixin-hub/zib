@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:zib/api/live.dart';
+import 'package:zib/api/user.dart';
+import 'package:zib/common/Types.dart';
+import 'package:zib/main.dart';
+import 'package:zib/pages/player_page/player_page_logic.dart';
 
 enum UserRankType {
   TYPE_CICLE,
@@ -17,22 +23,46 @@ class UserRank extends StatefulWidget {
 }
 
 class _UserRankState extends State<UserRank> {
+  var playerPageLogic = Get.find<PlayerPageLogic>();
+  var userIdList = [];
+
+  loadUserList() {
+    var roomId = playerPageLogic.liveRoomId;
+    userRankList({'roomId': roomId}).then((res) {
+      setState(() {
+        userIdList = res['data'] ?? [];
+        eventBus.fire(EventPayload(type: EventType.ONLINE_NUMBER, data: userIdList.length));
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserList();
+    eventBus.on().listen((event) {
+      if (event == EventType.USER_RANK_RESFREH) {
+        loadUserList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.userRankType == UserRankType.TYPE_ITEM) {
       return Row(children: [
         ListView.builder(
-            itemCount: 10,
+            itemCount: userIdList.length,
             itemBuilder: (context, index) {
-              return UserItem("用户$index", index);
+              return UserItem(userIdList[index], index);
             }).expanded()
       ]);
     } else {
       return Row(children: [
         ListView.builder(
-            itemCount: 20,
+            itemCount: userIdList.length,
             itemBuilder: (context, index) {
-              return UserCicle("用户$index", index);
+              return UserCircle(userIdList[index], index);
             }).expanded()
       ]);
     }
@@ -85,11 +115,28 @@ class UserItem extends StatelessWidget {
   }
 }
 
-class UserCicle extends StatelessWidget {
-  final String userName;
+class UserCircle extends StatefulWidget {
+  final String userId;
   final int index;
 
-  const UserCicle(this.userName, this.index, {super.key});
+  const UserCircle(this.userId, this.index, {super.key});
+
+  @override
+  State<UserCircle> createState() => _UserCircleState();
+}
+
+class _UserCircleState extends State<UserCircle> {
+  var userInfo = {};
+
+  @override
+  void initState() {
+    super.initState();
+    userSampleInfoById(widget.userId).then((res) {
+      setState(() {
+        userInfo = res;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +150,7 @@ class UserCicle extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 5),
             alignment: Alignment.center,
             child: const CircleAvatar(
-              backgroundImage: AssetImage(
-                "images/banner.png",
-              ),
+              backgroundImage: NetworkImage("https://cdn.wallpapersafari.com/5/32/ZiLwrf.jpg"),
             ),
           ).expanded()
         ],

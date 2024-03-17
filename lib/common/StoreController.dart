@@ -31,7 +31,7 @@ class StoreController extends GetxController {
         if (response.statusCode == 401 || response.data['code'] == 401) {
           Get.toNamed('/login');
         }
-        logger.i('Response: ${response}');
+        // logger.i('Response: ${response}');
         // 继续传递响应数据，使其继续后续的处理
         return handler.next(response);
       },

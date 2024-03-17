@@ -31,7 +31,7 @@ var logger = Logger(
 );
 //事件总线
 var eventBus=EventBus();
-StoreController store = Get.put(StoreController());
+var store = Get.put(StoreController());
 
 class MyWindowListener extends WindowListener {
   @override

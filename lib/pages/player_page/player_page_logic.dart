@@ -22,8 +22,9 @@ class PlayerPageLogic extends GetxController {
       Get.back();
       return;
     }
-    controller = VideoPlayerController.networkUrl(
-        Uri.parse('http://localhost:80/live.flv?port=1985&app=myapp&stream=$liveRoomId'));
+    var userId = store.user['userId'];
+    controller = VideoPlayerController.networkUrl(Uri.parse(
+        'http://localhost:80/live.flv?userId=$userId&port=1985&app=myapp&stream=$liveRoomId'));
     controller.addListener(() {
       isPlaying.value = controller.value.isPlaying;
     });

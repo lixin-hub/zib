@@ -58,6 +58,7 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
         setState(() {
           isUserRankOpen = !isUserRankOpen;
         });
+      case ToolbarCallbackType.REFRESH:
     }
   }
 
@@ -82,7 +83,7 @@ class _DesktopPlayerPageState extends State<DesktopPlayerPage> {
                 curve: Curves.ease,
                 child: Column(
                   children: [
-                    const UserRank(UserRankType.TYPE_CICLE).expanded(),
+                    UserRank(UserRankType.TYPE_CICLE).expanded(),
                   ],
                 ),
               ),
@@ -194,18 +195,26 @@ class Info extends StatefulWidget {
 class _InfoState extends State<Info> {
   var _showCommentRegion = false;
   var playerLogic = Get.find<PlayerPageLogic>();
+  var onlineNumber = 0;
 
   @override
   void initState() {
     super.initState();
     eventBus.on().listen((event) {
-      if (event == Events.REVIEW_CLOSE) {
+      if (event == EventType.REVIEW_CLOSE) {
         _showCommentRegion = true;
       }
-      if (event == Events.REVIEW_OPPEN) {
+      if (event == EventType.REVIEW_OPPEN) {
         _showCommentRegion = false;
       }
       setState(() {});
+    });
+    eventBus.on<EventPayload>().listen((EventPayload event) {
+      if (event.type == EventType.ONLINE_NUMBER) {
+        setState(() {
+          onlineNumber = event.data;
+        });
+      }
     });
   }
 
@@ -315,7 +324,7 @@ class _InfoState extends State<Info> {
                       size: 16,
                     ),
                     Text(
-                      playerLogic.liveRoomInfo['onlineNumber']?.toString() ?? '',
+                      '$onlineNumber',
                       style: const TextStyle(color: Colors.orange, fontSize: 13),
                     ),
                     Text("12:30", style: l2).padding(left: 5),

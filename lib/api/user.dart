@@ -30,3 +30,9 @@ userInfoById(id) async {
   final response = await dio.get("system/user/${id}");
   return response.data['data'];
 }
+
+//获取用户简单信息
+userSampleInfoById(id) async {
+  final response = await dio.get("system/user/getUserInfo/${id}");
+  return response.data['data'];
+}
